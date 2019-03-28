@@ -27,12 +27,12 @@ Vue.component("v-practice", {
     <el-card shadow="never" style="max-height:150px">
         <div class="mb-2 crop-text-2 reg-text">{{title}}</div>
         <div class="">
-            <el-checkbox >完成</el-checkbox>
+            <el-checkbox v-model="chk">完成</el-checkbox>
         </div>
         <div> <el-button type="text" class="button" @click="oninfoclick">更多資訊</el-button> </div>
     </el-card>
     `,
-    props:["title",'body'],
+    props:["id", "title", 'body', 'chk'],
     data(){
         return {
             

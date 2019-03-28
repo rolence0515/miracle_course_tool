@@ -31,22 +31,21 @@ h1 ,.prm-text{
 </el-row>
 <el-row class="mb-3" type="flex"  justify="end">
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="3">
-            <el-dropdown style="float:right">
-                <span class="el-dropdown-link">
-                        顯示全部<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>顯示全部</el-dropdown-item>
-                    <el-dropdown-item>顯示未完成</el-dropdown-item>
-                    <el-dropdown-item>顯示已完成</el-dropdown-item>
-                </el-dropdown-menu>
-                </el-dropdown>
+           <el-select style="float:right" v-model="ftr" placeholder="過濾">
+                <el-option  label="顯示全部" value="顯示全部">
+                </el-option>
+                <el-option  label="顯示未完成" value="顯示未完成">
+                </el-option>
+                <el-option  label="顯示已完成" value="顯示已完成">
+                </el-option>
+            </el-select>
+              
     </el-col>
 </el-row>
 <el-row :gutter="5" >
-    <el-col v-for="b in books" class="mb-1" :xs="12" :sm="6" :md="4" :lg="3" :xl="2">
+    <el-col v-for="b in get_display_items()" class="mb-1" :xs="12" :sm="6" :md="4" :lg="3" :xl="2">
             <div class="grid-content bg-purple">
-                    <v-practice @oninfoclick="oninfoclick(b['ttl'], b['txt'])" :title="b['ttl']"></v-practice>
+                    <v-practice :chk="ischk(b['idx'])" @oninfoclick="oninfoclick(b['d']['ttl'], b['d']['txt'])" :id="b['idx']" :title="b['d']['ttl']"></v-practice>
             </div>
     </el-col>
 </el-row>
@@ -62,9 +61,9 @@ h1 ,.prm-text{
 
 {% block js %}
 <script src="/static/js/v-practice.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 
 <script>
-
 var obj;
 obj = new Vue({
     delimiters: ['[[',']]'],
@@ -75,11 +74,31 @@ obj = new Vue({
         showDialog : false, //顯示對話框
         dialog_ttl:"",
         dialog_txt:"",
-        books : {{books | safe}},
+        books : {{books | safe}}, //練習手冊內文
+        chks :[0,1,2,3], //使用者勾選的(完成)
+        ftr :"顯示全部", //過濾條件
         msg: "test"
     },
-
     methods: {
+        get_display_items(){
+            //跟據過濾條件顯示項目
+            app = this;
+            if(this.ftr == "顯示全部"){
+                return this.books;
+            }else if (this.ftr == "顯示未完成")
+            {
+                return _.filter(this.books,  function(b){ 
+                    return  !app.chks.includes(b["idx"]) 
+                });
+            }else{
+                return _.filter(this.books,  function(b){ 
+                    return  app.chks.includes(b["idx"]) 
+                });
+            }
+        },
+        ischk(idx){
+            return this.chks.includes(idx)
+        },
         oninfoclick(ttl, txt){
             this.dialog_ttl=ttl,
             this.dialog_txt=txt,

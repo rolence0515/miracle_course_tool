@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 with open("pratic_book.json", 'r') as f:
     data = json.loads(f.read())
-練習手冊 = data
+練習手冊 = [{"idx":i, "d" :d} for i, d in enumerate(data)]
 
 
 
@@ -25,7 +25,7 @@ def home():
 def reload():
     with open("pratic_book.json", 'r') as f:
         data = json.loads(f.read())
-    練習手冊 = data
+    練習手冊 =  [{"idx":i, "d" :d} for i, d in enumerate(data)]
     return render_template('home.html', books = 練習手冊)
 
 
