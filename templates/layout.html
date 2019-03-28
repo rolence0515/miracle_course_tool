@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+
+
+    </script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %} - 奇蹟課程學員練習工具</title>
+    <!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"> -->
+    <meta content="width=device-width,initial-scale=1,minimal-ui" name="viewport">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material@beta/dist/vue-material.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material@beta/dist/theme/default.css">
+    <!-- 引入element样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- Add this to <head> -->
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <style lang="scss" scoped>
+        /* 防止載入初始化 */
+        [v-cloak]{
+            display: none;
+        }
+        .md-app {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        .md-drawer {
+            /*width: 230px;*/
+            max-width: calc(100vw - 125px);
+        }
+        .md-progress-spinner circle {
+            stroke: #606266 !important;
+        }
+        .md-list.md-theme-default .md-list-item-container:not(.md-list-item-default):not([disabled]):hover {
+            background-color: #f5f7fa !important;
+        }
+    </style>
+    
+    <style id="main_style"></style>
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+      
+
+    <div id="layout" v-cloak>
+        <md-app md-waterfall md-mode="fixed-last">
+            <md-app-toolbar class=" md-dense md-primary" style="z-index:9999;">
+                <div class="md-toolbar-row">
+                    <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
+                        <md-icon>menu</md-icon>
+                    </md-button>
+                    <span class="md-title">奇蹟課程學員練習工具</span>
+                    <span style="flex: 1 1 auto;"></span>
+                    <md-button class="md-icon-button" title="檢閱帳戶" v-popover:popover>
+                        <md-icon>person</md-icon>
+                    </md-button>
+                    <el-popover ref="popover" placement="bottom" trigger="click">
+                        <div class="separator" style="float: left;">
+
+                        </div>
+                        <div class="separator" style="float: left;margin-left:15px;min-width:240px;">
+                            <p>帳號資訊</p>
+
+                        </div>
+                        <div style="text-align: right; margin: 0;clear:both;">
+                            <el-button type="primary" title="登出" @click="">登出</el-button>
+                        </div>
+                    </el-popover>
+                </div>
+
+                {% block toolbarrow %} {% endblock %}
+
+            </md-app-toolbar>
+
+            <md-app-drawer :md-active.sync="menuVisible">
+                <md-toolbar class="md-transparent" md-elevation="0">選單</md-toolbar>
+                <div class="full-control">
+                    <div class="list">
+                        <md-list :md-expand-single="expandSingle">
+                            <md-list-item style="cursor:pointer;" @click="click_href('/')">
+                                <md-icon>home</md-icon>
+                                <span class="md-list-item-text">學員練習手冊</span>
+                            </md-list-item>
+
+                            <md-list-item style="cursor:pointer;" @click="click_href('/Customer/TargetUserList')">
+                                <md-icon>group</md-icon>
+                                <span class="md-list-item-text">正文</span>
+                            </md-list-item>
+
+                        </md-list>
+
+                    </div>
+                </div>
+
+            </md-app-drawer>
+
+            <md-app-content>
+                <el-breadcrumb separator-class="el-icon-arrow-right">
+                    <el-breadcrumb-item v-for="bp in breadpath">
+                        <a v-text="bp.key" :href="bp.path" v-if="bp.path.length > 0"> </a>
+                        <a v-text="bp.key" v-else></a>
+                    </el-breadcrumb-item>
+                </el-breadcrumb>
+                {% block content %} {% endblock %}
+
+            </md-app-content>
+
+
+        </md-app>
+
+        {% block bodybottom %} {% endblock %}
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+
+
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <!-- <script src="/static/js/elementui/zh-TW.js"></script> -->
+
+    <!-- vue-material要改beta8才能支援expanded.sync-->
+    <script src="/static/js/vue-material.min.js"></script>
+
+    <script>
+
+        Vue.use(VueMaterial.default);
+
+        var layoutVue = {
+            data: {
+                menuVisible: false,
+                expandAudi: true,
+                expandMarket: true,
+                expandSingle: true,
+                expandSetting: true,
+                expandStatistic: true,
+                breadpath: []
+            },
+            methods: {
+
+            }
+        }
+
+        //fixed menu white bottom not show
+        var sheet = $("#main_style").get(0).sheet;
+        var styles = 'main {min-height: ' + ($(window).height() - 110) + 'px;}';
+        sheet.insertRule(styles, 0);
+    </script> 
+    {% block js %} {% endblock %}
+
+</body>
+
+</html>

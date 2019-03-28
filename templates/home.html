@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+{% block title %}奇蹟課程學員練習記錄工具{% endblock %}
+{% block head %}
+<style type="text/css">
+.crop-text-2 {
+    /*兩行點點點*/
+    -webkit-line-clamp: 2;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+h1 ,.prm-text{
+    color:#303133
+}
+.reg-text{
+    color:#606266
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+
+<h1 class="mb-3">學員練習記錄工具</h1>
+<el-row class="mb-3">
+    <el-col  :span="24">
+            <md-progress-bar md-mode="determinate" :md-value="80"></md-progress-bar>
+    </el-col>
+</el-row>
+<el-row class="mb-3" type="flex"  justify="end">
+    <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="3">
+            <el-dropdown style="float:right">
+                <span class="el-dropdown-link">
+                        顯示全部<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>顯示全部</el-dropdown-item>
+                    <el-dropdown-item>顯示未完成</el-dropdown-item>
+                    <el-dropdown-item>顯示已完成</el-dropdown-item>
+                </el-dropdown-menu>
+                </el-dropdown>
+    </el-col>
+</el-row>
+<el-row :gutter="5" >
+    <el-col v-for="b in books" class="mb-1" :xs="8" :sm="6" :md="4" :lg="3" :xl="1">
+            <div class="grid-content bg-purple">
+                    <v-practice @oninfoclick="oninfoclick(b['ttl'], b['txt'])" :title="b['ttl']"></v-practice>
+            </div>
+    </el-col>
+</el-row>
+{{msg}}
+<md-dialog :md-active.sync="showDialog" style="width: 90%;">
+        <md-dialog-title class="prm-text">[[dialog_ttl]]</md-dialog-title>
+        <md-dialog-content>
+            <span class="reg-text" v-html="dialog_txt">
+        </md-dialog-content>
+</md-dialog>  
+
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/v-practice.js"></script>
+
+<script>
+
+var obj;
+obj = new Vue({
+    delimiters: ['[[',']]'],
+    el: '#layout',
+    mixins: [layoutVue],
+    breadpath: [{key: '首頁', path: ''}],
+    data: {
+        showDialog : false, //顯示對話框
+        dialog_ttl:"",
+        dialog_txt:"",
+        books : {{books | safe}},
+        msg: "test"
+    },
+
+    methods: {
+        oninfoclick(ttl, txt){
+            this.dialog_ttl=ttl,
+            this.dialog_txt=txt,
+            this.showDialog = true
+        }
+       
+    },
+    watch: {
+       
+    }
+});
+
+    
+</script>
+
+
+{% endblock %}

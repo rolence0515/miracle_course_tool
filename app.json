@@ -1,0 +1,7 @@
+{
+  "name": "miracle_course_tool",
+  "description": "miracle_course_tool",
+  "image": "heroku/python",
+  "repository": "https://git.heroku.com/miraclecoursetool",
+  "keywords": ["python", "flask" ]
+}
