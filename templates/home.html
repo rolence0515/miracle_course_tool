@@ -1,118 +1,155 @@
-{% extends "layout.html" %}
-{% block title %}奇蹟課程學員練習記錄工具{% endblock %}
-{% block head %}
+{% extends "layout.html" %} {% block title %}奇蹟課程學員練習記錄工具{% endblock %} {% block head %}
 <style type="text/css">
-.crop-text-2 {
-    /*兩行點點點*/
-    -webkit-line-clamp: 2;
-    overflow : hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-}
-h1 ,.prm-text{
-    color:#303133
-}
-.reg-text{
-    color:#606266
-}
-</style>
-{% endblock %}
+    .crop-text-2 {
+        /*兩行點點點*/
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+    }
 
-{% block content %}
+    h1,
+    .prm-text {
+        color: #303133
+    }
+
+    .reg-text {
+        color: #606266
+    }
+
+</style>
+{% endblock %} {% block content %}
 
 
 
 <h1 class="mb-3">學員練習記錄工具</h1>
 <el-row class="mb-3">
-    <el-col  :span="24">
-            <md-progress-bar md-mode="determinate" :md-value="80"></md-progress-bar>
+    <el-col :span="24">
+        <md-progress-bar md-mode="determinate" :md-value="progs"></md-progress-bar>
     </el-col>
 </el-row>
-<el-row class="mb-3" type="flex"  justify="end">
+<el-row class="mb-3" type="flex" justify="end">
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="3">
-           <el-select style="float:right" v-model="ftr" placeholder="過濾">
-                <el-option  label="顯示全部" value="顯示全部">
-                </el-option>
-                <el-option  label="顯示未完成" value="顯示未完成">
-                </el-option>
-                <el-option  label="顯示已完成" value="顯示已完成">
-                </el-option>
-            </el-select>
-              
+        <el-select style="float:right" v-model="ftr" placeholder="過濾">
+            <el-option label="顯示全部" value="顯示全部">
+            </el-option>
+            <el-option label="顯示未完成" value="顯示未完成">
+            </el-option>
+            <el-option label="顯示已完成" value="顯示已完成">
+            </el-option>
+        </el-select>
+
     </el-col>
 </el-row>
-<el-row :gutter="5" >
+<el-row :gutter="5">
     <el-col v-for="b in get_display_items()" class="mb-1" :xs="12" :sm="6" :md="4" :lg="3" :xl="2">
-            <div class="grid-content bg-purple">
-                    <v-practice :chk="ischk(b['idx'])" @oninfoclick="oninfoclick(b['d']['ttl'], b['d']['txt'])" :id="b['idx']" :title="b['d']['ttl']"></v-practice>
-            </div>
+        <div class="grid-content bg-purple">
+            <v-practice :chk="chks.includes(b['idx'])" @oninfoclick="oninfoclick(b['d']['ttl'], b['d']['txt'])" :id="b['idx']" :title="b['d']['ttl']"
+                @onchangecheck="onchangecheck">
+            </v-practice>
+        </div>
     </el-col>
 </el-row>
-{{msg}}
-<md-dialog :md-active.sync="showDialog" style="width: 90%;">
-        <md-dialog-title class="prm-text">[[dialog_ttl]]</md-dialog-title>
-        <md-dialog-content>
-            <span class="reg-text" v-html="dialog_txt">
-        </md-dialog-content>
-</md-dialog>  
+<!--  -->
+<md-dialog :md-active.sync="showDialog" @md-opened="on_showDialog" style="width: 90%;">
+    <md-dialog-title class="prm-text">
+        [[dialog_ttl]]
+        <el-row class="mt-3">
+            <el-col :span="24">
+                <!-- <audio src="{{ url_for('static', filename='1.mp3') }}" preload="auto" /> -->
+                <aplayer autoplay
+                :music="{
+                  title: dialog_ttl,
+                  artist: ' ',
+                  src: '{{ url_for('static', filename='1.mp3') }}'
+                }"
+              />
+            </el-col>
+        </el-row>
+    </md-dialog-title>
+    <md-dialog-content>
+        <span class="reg-text" v-html="dialog_txt">
+    </md-dialog-content>
+</md-dialog>
 
-{% endblock %}
-
-{% block js %}
+{% endblock %} {% block js %}
 <script src="/static/js/v-practice.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/audiojs/1.0.1/audio.min.js"></script>
+<script src="/static/audiojs/audio.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/vue-aplayer"></script>
 <script>
-var obj;
-obj = new Vue({
-    delimiters: ['[[',']]'],
-    el: '#layout',
-    mixins: [layoutVue],
-    breadpath: [{key: '首頁', path: ''}],
-    data: {
-        showDialog : false, //顯示對話框
-        dialog_ttl:"",
-        dialog_txt:"",
-        books : {{books | safe}}, //練習手冊內文
-        chks :[0,1,2,3], //使用者勾選的(完成)
+
+</script>
+<script>
+    Vue.component('aplayer', VueAPlayer)
+
+    var obj;
+    obj = new Vue({
+        delimiters: ['[[', ']]'],
+        el: '#layout',
+        mixins: [layoutVue],
+        breadpath: [{ key: '首頁', path: '' }],
+        data: {
+            showDialog: false, //顯示對話框
+            dialog_ttl: "",
+            dialog_txt: "",
+            books: {{books | safe }}, //練習手冊內文
+        chks :[0, 1, 2, 3], //使用者勾選的(完成)
         ftr :"顯示全部", //過濾條件
-        msg: "test"
+        msg: "test",
+        progs:0
     },
-    methods: {
-        get_display_items(){
-            //跟據過濾條件顯示項目
-            app = this;
-            if(this.ftr == "顯示全部"){
-                return this.books;
-            }else if (this.ftr == "顯示未完成")
-            {
-                return _.filter(this.books,  function(b){ 
-                    return  !app.chks.includes(b["idx"]) 
-                });
-            }else{
-                return _.filter(this.books,  function(b){ 
-                    return  app.chks.includes(b["idx"]) 
-                });
+        methods: {
+            get_display_items() {
+                //跟據過濾條件顯示項目
+                app = this;
+                if (this.ftr == "顯示全部") {
+                    return this.books;
+                } else if (this.ftr == "顯示未完成") {
+                    return _.filter(this.books, function (b) {
+                        return !app.chks.includes(b["idx"])
+                    });
+                } else {
+                    return _.filter(this.books, function (b) {
+                        return app.chks.includes(b["idx"])
+                    });
+                }
+            },
+            ischk(idx) {
+                //判斷是否已完成
+                return
+            },
+            oninfoclick(ttl, txt) {
+                //點擊更多資訊
+                this.dialog_ttl = ttl,
+                this.dialog_txt = txt,
+                this.showDialog = true
+            },
+            onchangecheck(idx, chk) {
+                //使用者勾選某課,idx課索引，chk是否勾選
+                if (chk) {
+                    this.chks.push(idx)
+                } else {
+                    this.chks.pop(idx)
+                }
+                this.progs = (this.chks.length / 365) * 100
+
+            },
+            on_showDialog() {
+                // var as = audiojs.createAll();
+                Vue.component('aplayer', VueAPlayer)
             }
+
         },
-        ischk(idx){
-            return this.chks.includes(idx)
+        watch: {
+
         },
-        oninfoclick(ttl, txt){
-            this.dialog_ttl=ttl,
-            this.dialog_txt=txt,
-            this.showDialog = true
+        mounted:function () {
+
         }
-       
-    },
-    watch: {
-       
-    }
 });
 
-    
-</script>
 
-
-{% endblock %}
+</script> {% endblock %}

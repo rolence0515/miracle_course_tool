@@ -27,7 +27,7 @@ Vue.component("v-practice", {
     <el-card shadow="never" style="max-height:150px">
         <div class="mb-2 crop-text-2 reg-text">{{title}}</div>
         <div class="">
-            <el-checkbox v-model="chk">完成</el-checkbox>
+            <el-checkbox v-model="chk" @change="oncheck_chage">完成</el-checkbox>
         </div>
         <div> <el-button type="text" class="button" @click="oninfoclick">更多資訊</el-button> </div>
     </el-card>
@@ -40,13 +40,16 @@ Vue.component("v-practice", {
     },
     mounted() {
         
-      },
+    },
     watch: {
         
     },
     methods:{
         oninfoclick(){
             this.$emit('oninfoclick','nothing'); 
+        },
+        oncheck_chage(ischeck){
+            this.$emit('onchangecheck',this.id, ischeck)
         }
         
     }
