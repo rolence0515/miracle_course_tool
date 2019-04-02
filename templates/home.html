@@ -46,8 +46,8 @@
     <el-col v-for="b in get_display_items()" class="mb-1" :xs="12" :sm="6" :md="4" :lg="4" :xl="4">
         <div class="grid-content bg-purple">
             <v-practice :chk="chks.includes(b['idx'])" 
-            @onmp3click="onmp3click(b['d']['ttl'], b['d']['txt'])"
-            @oninfoclick="oninfoclick(b['d']['ttl'], b['d']['txt'])" :id="b['idx']" :title="b['d']['ttl']"
+            @onmp3click="onmp3click(b['d']['ttl'], b['d']['txt'], b['idx'])"
+            @oninfoclick="oninfoclick(b['d']['ttl'], b['d']['txt'], b['idx'])" :id="b['idx']" :title="b['d']['ttl']"
             @onchangecheck="onchangecheck">
             </v-practice>
         </div>
@@ -59,7 +59,16 @@
         [[dialog_ttl]]
     </md-dialog-title>
     <md-dialog-content>
+            <aplayer autoplay
+            :music="{
+                title: dialog_ttl,
+                artist: '奇蹟課程',
+                src: dialog_mp3
+            }"
+            />
         <span class="reg-text" v-html="dialog_txt">
+               
+        
     </md-dialog-content>
 </md-dialog>
 
@@ -67,10 +76,10 @@
         <md-dialog-title class="prm-text">
             [[dialog_ttl]]
         </md-dialog-title>
-        <md-dialog-content>
+        <md-dialog-content style="height:300">
               
-            <iframe  width="100%" style="height:200px !important"  src="https://clyp.it/zthv5bwb/widget" frameborder="0"></iframe>
-            
+            <iframe width="100%" height="200"  src="https://clyp.it/zthv5bwb/widget" frameborder="0"></iframe>
+            <div></div> 
         </md-dialog-content>
     </md-dialog>
 
@@ -95,13 +104,15 @@
         data: {
             show_mp3_Dialog :false,
             showDialog: false, //顯示對話框
+            dialog_mp3:"",
             dialog_ttl: "",
             dialog_txt: "",
             books: {{books | safe }}, //練習手冊內文
-        chks :[0, 1, 2, 3], //使用者勾選的(完成)
-        ftr :"顯示全部", //過濾條件
-        msg: "test",
-        progs:0
+            mp3lst : {{mp3lst | safe}},
+            chks :[0, 1, 2, 3], //使用者勾選的(完成)
+            ftr :"顯示全部", //過濾條件
+            msg: "test",
+            progs:0
     },
         methods: {
             get_display_items() {
@@ -123,17 +134,19 @@
                 //判斷是否已完成
                 return
             },
-            oninfoclick(ttl, txt) {
+            oninfoclick(ttl, txt, idx) {
                 //點擊更多資訊
-                this.dialog_ttl = ttl,
-                this.dialog_txt = txt,
+                this.dialog_mp3 = this.mp3lst[idx]['data']['link'];
+                this.dialog_ttl = ttl;
+                this.dialog_txt = txt;
                 this.showDialog = true
             },
-            onmp3click(ttl, txt) {
+            onmp3click(ttl, txt, idx) {
                 //點擊更多資訊
-                this.dialog_ttl = ttl,
-                this.dialog_txt = txt,
-                this.show_mp3_Dialog = true
+                this.dialog_mp3 = this.mp3lst[idx]['data']['link'];
+                this.dialog_ttl = ttl;
+                this.dialog_txt = txt;
+                this.showDialog = true
             },
             onchangecheck(idx, chk) {
                 //使用者勾選某課,idx課索引，chk是否勾選

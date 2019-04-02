@@ -14,6 +14,10 @@ with open("pratic_book.json", 'r') as f:
     data = json.loads(f.read())
 練習手冊 = [{"idx":i, "d" :d} for i, d in enumerate(data)]
 
+with open("mp3.json", 'r') as f:
+    data = json.loads(f.read())
+mp3list = [{"idx":i, "data" :d} for i, d in enumerate(data)]
+
 
 
 session = {
@@ -26,7 +30,7 @@ session = {
 @app.route("/")
 @app.route("/<int:rg1>/<int:rg2>")
 def home(rg1=0, rg2=60):
-    return render_template('home.html', books = 練習手冊[rg1:rg2])
+    return render_template('home.html', books = 練習手冊[rg1:rg2], mp3lst = mp3list)
 
 
 # @app.route("/api/read/<int:courseid>")
