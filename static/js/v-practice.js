@@ -24,7 +24,7 @@
 
 Vue.component("v-practice", {
     template: `
-    <el-card shadow="never" style="max-height:150px">
+    <el-card shadow="never" style="height:150px">
         <div class="mb-2 crop-text-2 reg-text">{{title}}</div>
         <div class="">
             <el-checkbox v-model="chk" @change="oncheck_chage">完成</el-checkbox>
