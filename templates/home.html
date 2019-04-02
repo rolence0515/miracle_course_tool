@@ -30,7 +30,7 @@
 </el-row>
 <el-row class="mb-3" type="flex" justify="end">
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="3">
-        <el-select style="float:right" v-model="ftr" placeholder="過濾">
+        <el-select style="float:right" v-model="local_data.ftr" placeholder="過濾">
             <el-option label="顯示全部" value="顯示全部">
             </el-option>
             <el-option label="顯示未完成" value="顯示未完成">
@@ -44,7 +44,7 @@
 <el-row :gutter="5">
     <el-col v-for="b in get_display_items()" class="mb-1" :xs="12" :sm="6" :md="4" :lg="4" :xl="4">
         <div class="grid-content bg-purple">
-            <v-practice :chk="chks.includes(b['idx'])" 
+            <v-practice :chk="local_data.chks.includes(b['idx'])" 
             @onmp3click="onmp3click(b['d']['ttl'], b['d']['txt'], b['idx'])"
             @oninfoclick="oninfoclick(b['d']['ttl'], b['d']['txt'], b['idx'])" :id="b['idx']" :title="b['d']['ttl']"
             @onchangecheck="onchangecheck">
@@ -106,8 +106,10 @@
             dialog_txt: "",
             books: {{books | safe }}, //練習手冊內文
             mp3lst : {{mp3lst | safe}},
-            chks :[0, 1, 2, 3], //使用者勾選的(完成)
-            ftr :"顯示全部", //過濾條件
+            local_data:{
+                chks :[0, 1, 2, 3], //使用者勾選的(完成)
+                ftr :"顯示全部", //過濾條件
+            },
             msg: "test",
             progs:0
         },
@@ -115,15 +117,15 @@
             get_display_items() {
                 //跟據過濾條件顯示項目
                 app = this;
-                if (this.ftr == "顯示全部") {
+                if (this.local_data.ftr == "顯示全部") {
                     return this.books;
-                } else if (this.ftr == "顯示未完成") {
+                } else if (this.local_data.ftr == "顯示未完成") {
                     return _.filter(this.books, function (b) {
-                        return !app.chks.includes(b["idx"])
+                        return !app.local_data.chks.includes(b["idx"])
                     });
                 } else {
                     return _.filter(this.books, function (b) {
-                        return app.chks.includes(b["idx"])
+                        return app.local_data.chks.includes(b["idx"])
                     });
                 }
             },
@@ -148,27 +150,41 @@
             onchangecheck(idx, chk) {
                 //使用者勾選某課,idx課索引，chk是否勾選
                 if (chk) {
-                    this.chks.push(idx)
+                    this.local_data.chks.push(idx)
                 } else {
-                    this.chks.pop(idx)
+                    this.local_data.chks.pop(idx)
                 }
-                this.progs = (this.chks.length / 365) * 100
-
+                this.update_progress();
+                this.save_localStorage();
+            },
+            update_progress(){
+                this.progs = (this.local_data.chks.length / 365) * 100
             },
             on_showDialog() {
               
             },
             on_showmp3player(){
 
+            },
+            save_localStorage(){
+                //save to local straoge
+                localStorage.miraclecoursetool = JSON.stringify(this.local_data)
+            },
+            load_localStroage(){
+                //載入資料
+                if (localStorage.miraclecoursetool) {
+                    this.local_data = JSON.parse(localStorage.miraclecoursetool)
+                }   
             }
-
         },
         watch: {
 
         },
         mounted:function () {
-
+            this.load_localStroage();
+            this.update_progress();
         }
+
 });
 
 </script> 
