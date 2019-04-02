@@ -29,7 +29,9 @@ Vue.component("v-practice", {
         <div class="">
             <el-checkbox v-model="chk" @change="oncheck_chage">完成</el-checkbox>
         </div>
-        <div> <el-button type="text" class="button" @click="oninfoclick">更多資訊</el-button> </div>
+        <div> <el-button type="text" class="button" @click="oninfoclick">課程內容</el-button> 
+            <el-button type="text" class="button" @click="onmp3click">播放音頻</el-button>
+        </div>
     </el-card>
     `,
     props:["id", "title", 'body', 'chk'],
@@ -47,6 +49,9 @@ Vue.component("v-practice", {
     methods:{
         oninfoclick(){
             this.$emit('oninfoclick','nothing'); 
+        },
+        onmp3click(){
+            this.$emit('onmp3click','nothing'); 
         },
         oncheck_chage(ischeck){
             this.$emit('onchangecheck',this.id, ischeck)

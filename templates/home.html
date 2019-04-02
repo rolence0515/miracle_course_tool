@@ -45,8 +45,10 @@
 <el-row :gutter="5">
     <el-col v-for="b in get_display_items()" class="mb-1" :xs="12" :sm="6" :md="4" :lg="4" :xl="4">
         <div class="grid-content bg-purple">
-            <v-practice :chk="chks.includes(b['idx'])" @oninfoclick="oninfoclick(b['d']['ttl'], b['d']['txt'])" :id="b['idx']" :title="b['d']['ttl']"
-                @onchangecheck="onchangecheck">
+            <v-practice :chk="chks.includes(b['idx'])" 
+            @onmp3click="onmp3click(b['d']['ttl'], b['d']['txt'])"
+            @oninfoclick="oninfoclick(b['d']['ttl'], b['d']['txt'])" :id="b['idx']" :title="b['d']['ttl']"
+            @onchangecheck="onchangecheck">
             </v-practice>
         </div>
     </el-col>
@@ -55,23 +57,22 @@
 <md-dialog :md-active.sync="showDialog" @md-opened="on_showDialog" style="width: 90%;">
     <md-dialog-title class="prm-text">
         [[dialog_ttl]]
-        <el-row class="mt-3">
-            <el-col :span="24">
-                <!-- <audio src="{{ url_for('static', filename='1.mp3') }}" preload="auto" /> -->
-                <aplayer autoplay
-                :music="{
-                  title: dialog_ttl,
-                  artist: ' ',
-                  src: 'https://drive.google.com/open?id=1CPCxQBKCl83gPsrusNyQhEI1sCwO_I9n'
-                }"
-              />
-            </el-col>
-        </el-row>
     </md-dialog-title>
     <md-dialog-content>
         <span class="reg-text" v-html="dialog_txt">
     </md-dialog-content>
 </md-dialog>
+
+<md-dialog :md-active.sync="show_mp3_Dialog" @md-opened="on_showmp3player" style="width: 90%;">
+        <md-dialog-title class="prm-text">
+            [[dialog_ttl]]
+        </md-dialog-title>
+        <md-dialog-content>
+              
+            <iframe  width="100%" style="height:200px !important"  src="https://clyp.it/zthv5bwb/widget" frameborder="0"></iframe>
+            
+        </md-dialog-content>
+    </md-dialog>
 
 {% endblock %} {% block js %}
 <script src="/static/js/v-practice.js"></script>
@@ -92,6 +93,7 @@
         mixins: [layoutVue],
         breadpath: [{ key: '首頁', path: '' }],
         data: {
+            show_mp3_Dialog :false,
             showDialog: false, //顯示對話框
             dialog_ttl: "",
             dialog_txt: "",
@@ -127,6 +129,12 @@
                 this.dialog_txt = txt,
                 this.showDialog = true
             },
+            onmp3click(ttl, txt) {
+                //點擊更多資訊
+                this.dialog_ttl = ttl,
+                this.dialog_txt = txt,
+                this.show_mp3_Dialog = true
+            },
             onchangecheck(idx, chk) {
                 //使用者勾選某課,idx課索引，chk是否勾選
                 if (chk) {
@@ -138,8 +146,10 @@
 
             },
             on_showDialog() {
-                // var as = audiojs.createAll();
-                Vue.component('aplayer', VueAPlayer)
+              
+            },
+            on_showmp3player(){
+
             }
 
         },
