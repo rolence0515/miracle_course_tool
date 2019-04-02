@@ -88,16 +88,31 @@
                 <div class="full-control">
                     <div class="list">
                         <md-list :md-expand-single="expandSingle">
-                            <md-list-item style="cursor:pointer;" @click="click_href('/')">
+                            <md-list-item style="cursor:pointer;" @click="click_href('/0/60')">
                                 <md-icon>home</md-icon>
-                                <span class="md-list-item-text">學員練習手冊</span>
+                                <span class="md-list-item-text">學員練習手冊[1-60]</span>
                             </md-list-item>
-
-                            <md-list-item style="cursor:pointer;" @click="click_href('/Customer/TargetUserList')">
-                                <md-icon>group</md-icon>
-                                <span class="md-list-item-text">正文</span>
+                            <md-list-item style="cursor:pointer;" @click="click_href('/60/90')">
+                                <md-icon>home</md-icon>
+                                <span class="md-list-item-text">學員練習手冊[61-90]</span>
                             </md-list-item>
-
+                            <md-list-item style="cursor:pointer;" @click="click_href('/90/120')">
+                                <md-icon>home</md-icon>
+                                <span class="md-list-item-text">學員練習手冊[91-120]</span>
+                            </md-list-item>
+                            <md-list-item style="cursor:pointer;" @click="click_href('/120/150')">
+                                <md-icon>home</md-icon>
+                                <span class="md-list-item-text">學員練習手冊[121-150]</span>
+                            </md-list-item>
+                            <md-list-item style="cursor:pointer;" @click="click_href('/150/172')">
+                                <md-icon>home</md-icon>
+                                <span class="md-list-item-text">學員練習手冊[151-200]</span>
+                            </md-list-item>
+                            <md-list-item style="cursor:pointer;" @click="click_href('/171/365')">
+                                <md-icon>home</md-icon>
+                                <span class="md-list-item-text">學員練習手冊[200-365]</span>
+                            </md-list-item>
+                           
                         </md-list>
 
                     </div>
@@ -151,7 +166,9 @@
                 breadpath: []
             },
             methods: {
-
+                click_href(u) {
+                    location.href = u
+                },
             }
         }
 
