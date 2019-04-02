@@ -1,0 +1,16 @@
+html *{
+	/* outline: 1px solid #f00; */
+}
+body{
+	/* padding-bottom: 80px; */
+	font-family: Helvetica,"蘋果儷中黑","微軟正黑體",Verdana,Arial,sans-serif,"新細明體";
+}
+/* scroll內容區 */
+.md-app .md-content.md-theme-default.md-app-content{
+	background-color: #eee;
+}
+/* ------------------material css cover------------------ */
+/* 全域 */
+html.md-theme-default{
+	color: #555;
+}
