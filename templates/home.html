@@ -42,7 +42,7 @@
     </el-col>
 </el-row>
 <el-row :gutter="5">
-    <el-col v-for="b in get_display_items()" class="mb-1" :xs="12" :sm="6" :md="4" :lg="4" :xl="4">
+    <el-col v-for="b in get_display_items()" class="mb-1" :xs="24" :sm="6" :md="4" :lg="4" :xl="4">
         <div class="grid-content bg-purple">
             <v-practice :chk="local_data.chks.includes(b['idx'])" 
             @onmp3click="onmp3click(b['d']['ttl'], b['d']['txt'], b['idx'])"
