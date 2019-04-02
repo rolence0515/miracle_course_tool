@@ -57,12 +57,12 @@
     <md-dialog-title class="prm-text">
         [[dialog_ttl]]
     </md-dialog-title>
-    <md-dialog-actions>
-        <md-button class="md-primary" @click="showDialog = false">關閉</md-button>
-    </md-dialog-actions>
     <md-dialog-content>
         <div class="reg-text" v-html="dialog_txt" ></div>
     </md-dialog-content>
+    <md-dialog-actions>
+            <md-button class="md-primary" @click="showDialog = false">關閉</md-button>
+        </md-dialog-actions>
 </md-dialog>
 
 <md-dialog :md-active.sync="show_mp3_Dialog" @md-opened="on_showmp3player" style="width: 90%;">
