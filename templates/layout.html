@@ -85,6 +85,7 @@
                 <div class="full-control">
                     <div class="list">
                         <md-list :md-expand-single="expandSingle">
+                            <md-divider></md-divider>
                             <md-list-item style="cursor:pointer;" @click="click_href('/0/60')">
                                 <md-icon>library_books</md-icon>
                                 <span class="md-list-item-text">學員練習手冊[1-60]</span>
@@ -110,6 +111,21 @@
                                 <span class="md-list-item-text">學員練習手冊[200-365]</span>
                             </md-list-item>
                             <md-divider></md-divider>
+                           
+                            <md-list-item style="cursor:pointer;" @click="click_href('/about')">
+                                    <md-icon>bar_chart</md-icon>
+                                    <span class="md-list-item-text">個人統計</span>
+                            </md-list-item>
+                            <md-list-item style="cursor:pointer;" @click="click_href('/about')">
+                                <md-icon>bar_chart</md-icon>
+                                <span class="md-list-item-text">整體統計</span>
+                        </md-list-item>
+
+                            <md-divider></md-divider>
+                            <md-list-item style="cursor:pointer;" @click="click_href('/about')">
+                                <md-icon>info</md-icon>
+                                <span class="md-list-item-text">關於本站</span>
+                            </md-list-item>
                             <md-list-item style="cursor:pointer;" @click="on_click_show_qr()">
                                 <md-icon>share</md-icon>
                                 <span class="md-list-item-text">與弟兄分享此站</span>

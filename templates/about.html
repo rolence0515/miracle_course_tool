@@ -1,0 +1,72 @@
+{% extends "layout.html" %} {% block title %}奇蹟課程學員練習記錄工具{% endblock %} {% block head %}
+<style type="text/css">
+    .crop-text-2 {
+        /*兩行點點點*/
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+    }
+
+    h1,.prm-text {
+        color: #303133
+    }
+
+    .reg-text {
+        color: #606266
+    }
+
+</style>
+{% endblock %} 
+
+{% block content %}
+<h1 class="mb-3">關於本站</h1>
+<el-card shadow="never" style="height:400px" >
+        <ul>
+            <li>本站不屬於任何公司團體</li>
+            <li>本站只提供奇蹟學員練習及記錄(未來也許有交流)，絕不做任何營業用途</li>
+            <li>本站不負任何資料保管責任，所有記錄可能隨時消失</li>
+            <li>本站不收集任何有關個資隱私資料</li>
+            <li>使用本工具的學員請購買正版奇蹟課程實體書或電子書</li>
+        </ul>
+</el-card>
+
+{% endblock %} 
+
+
+
+{% block js %}
+
+<script src="/static/js/v-practice.js?20190402"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/audiojs/1.0.1/audio.min.js"></script>
+<script src="/static/audiojs/audio.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/vue-aplayer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollup/2.4.1/jquery.scrollUp.min.js"></script>
+<script>
+
+        var obj;
+        obj = new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#layout',
+            mixins: [layoutVue],
+            breadpath: [{ key: '首頁', path: '關於' }],
+            data: {
+               
+            },
+            methods: {
+               
+              
+            },
+            watch: {
+    
+            },
+            mounted:function () {
+                
+            }
+    
+    });
+    
+    </script> 
+    {% endblock %}

@@ -32,6 +32,10 @@ session = {
 def home(rg1=0, rg2=60):
     return render_template('home.html', books = 練習手冊[rg1:rg2], mp3lst = mp3list)
 
+@app.route("/about")
+def about():
+    return render_template('about.html')
+
 
 # @app.route("/api/read/<int:courseid>")
 # def read(courseid):
@@ -97,12 +101,12 @@ def home(rg1=0, rg2=60):
 #         read(idx)
     
 
-@app.route("/reload")
-def reload():
-    with open("pratic_book.json", 'r') as f:
-        data = json.loads(f.read())
-    練習手冊 =  [{"idx":i, "d" :d} for i, d in enumerate(data)]
-    return render_template('home.html', books = 練習手冊)
+# @app.route("/reload")
+# def reload():
+#     with open("pratic_book.json", 'r') as f:
+#         data = json.loads(f.read())
+#     練習手冊 =  [{"idx":i, "d" :d} for i, d in enumerate(data)]
+#     return render_template('home.html', books = 練習手冊)
 
 
 if __name__ == '__main__':
