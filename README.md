@@ -14,7 +14,9 @@ $ heroku open # 想看看效果，命令行里输入
 ## 佈署到github方式
 $ git add .
 $ git commit -m "Initialize Project"
-$ git remote add origin https://github.com/rolence0515/miracle_course_tool.git
+$ git remote add origin https://github.com/rolence0515/miracle_course_tool.git <-第一次要加這碼，之後不用
+$ git push -u origin master
+
 
 
 ## 如何取得google drive上的 mp3 url 
