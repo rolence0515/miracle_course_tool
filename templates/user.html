@@ -1,0 +1,134 @@
+{% extends "layout.html" %} {% block title %}奇蹟課程學員練習記錄工具{% endblock %} {% block head %}
+<style type="text/css">
+    .crop-text-2 {
+        /*兩行點點點*/
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+    }
+
+    h1,.prm-text {
+        color: #303133
+    }
+
+    .reg-text {
+        color: #606266
+    }
+
+</style>
+{% endblock %} 
+
+{% block content %}
+<h1 class="mb-3">個人統計</h1>
+<el-card shadow="never"  >
+        <div class="separator text-center">
+                <md-avatar class="md-avatar-icon md-large  mb-5 mt-4">
+                    <md-ripple>M</md-ripple>
+                </md-avatar>
+                <md-divider class="mb-4 mt-4"></md-divider>
+                <div>
+                    <md-list class="md-double-line">
+                        <md-subheader>稱謂</md-subheader>
+                
+                        <md-list-item>
+                            <md-icon class="md-primary">person</md-icon>
+                            <div class="md-list-item-text">
+                                <span>上主之子</span>
+                            </div>
+                          
+                        </md-list-item>
+                
+                        <md-list-item class="md-inset">
+                            <div class="md-list-item-text">
+                                <span>奇蹟志工</span>
+                            </div>
+                        </md-list-item>
+                
+                        <md-subheader>課程進度</md-subheader>
+                
+                        <md-list-item>
+                            <md-icon class="md-primary">flight_takeoff</md-icon>
+                
+                            <div class="md-list-item-text">
+                                <span>已完成4課</span>
+                                <span>佔總課程 3%</span>
+                            </div>
+                        </md-list-item>
+                
+                        <md-list-item class="md-inset">
+                            <div class="md-list-item-text">
+                                <span>操練第 1輪</span>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                
+                    <md-list class="md-double-line md-dense">
+                        <md-subheader>最近一次練習</md-subheader>
+                
+                        <md-list-item>
+                            <md-icon class="md-primary">sentiment_satisfied_alt</md-icon>
+                
+                            <div class="md-list-item-text">
+                                <span>2019-4-1</span>
+                                <span>第七課</span>
+                            </div>
+                
+                          
+                        </md-list-item>
+                
+                        <md-list-item class="md-inset">
+                            <div class="md-list-item-text">
+                                <span>(650) 555-1234</span>
+                                <span>Mobile</span>
+                            </div>
+                
+                           
+                        </md-list-item>
+                
+                
+                       
+                    </md-list>
+                </div>
+        </div>
+</el-card>
+
+{% endblock %} 
+
+
+
+{% block js %}
+
+<script src="/static/js/v-practice.js?20190402"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/audiojs/1.0.1/audio.min.js"></script>
+<script src="/static/audiojs/audio.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/vue-aplayer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollup/2.4.1/jquery.scrollUp.min.js"></script>
+<script>
+
+        var obj;
+        obj = new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#layout',
+            mixins: [layoutVue],
+            breadpath: [{ key: '首頁', path: '關於' }],
+            data: {
+               
+            },
+            methods: {
+               
+              
+            },
+            watch: {
+    
+            },
+            mounted:function () {
+                
+            }
+    
+    });
+    
+    </script> 
+    {% endblock %}

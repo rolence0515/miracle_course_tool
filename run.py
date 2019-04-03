@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 # heroku acc/pw : rolence0515@gmail.com/zaq1@#$%^&*()
 import json
-from flask import Flask, render_template,session
+from flask import Flask, render_template,session,request
 import requests
 import base64
 import time
 import hashlib
 from hanziconv import HanziConv
+from pymongo import MongoClient
+from bson.objectid import ObjectId #這東西再透過ObjectID去尋找的時候會用到
+
 
 app = Flask(__name__)
 
@@ -27,6 +30,8 @@ session = {
     }
 }
 
+mongo_uri = "mongodb://rolence0515:rolence0515@ds143342.mlab.com:43342/miraclecoursetooldb"
+
 @app.route("/")
 @app.route("/<int:rg1>/<int:rg2>")
 def home(rg1=0, rg2=60):
@@ -35,6 +40,39 @@ def home(rg1=0, rg2=60):
 @app.route("/about")
 def about():
     return render_template('about.html')
+
+@app.route("/user")
+def user():
+    return render_template('user.html')
+
+@app.route('/api/update', methods=['POST'])
+def save_to_mongo():
+    
+    data = request.form.to_dict() 
+    print(data)
+    usrid = data["id"]
+    op = data['op']
+    idx = data['idx']
+
+    client = MongoClient(mongo_uri)
+    db = client.miraclecoursetooldb
+    coll = db.userchks
+    if op == 'pull':
+        print('pull') 
+        coll.update({"_id":usrid}, { 
+                "$pull": { "chks": { "$in": [ idx ] }}
+                }, upsert = True)
+    else:
+        print('push') 
+        coll.update(
+            {"_id":usrid}, 
+            { 
+            "$push": { "chks":  [ idx ]}
+            },upsert = True)
+    return 'ok'
+           
+    
+    
 
 
 # @app.route("/api/read/<int:courseid>")

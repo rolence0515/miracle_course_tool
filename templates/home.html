@@ -18,10 +18,8 @@
     }
 
 </style>
-{% endblock %} {% block content %}
-
-
-
+{% endblock %}
+ {% block content %}
 <h1 class="mb-3">學員練習記錄工具</h1>
 <el-row class="mb-3">
     <el-col :span="24">
@@ -180,6 +178,7 @@
                 }
                 this.update_progress();
                 this.save_localStorage();
+                this.post_to_mongo();
             },
             update_progress(){
                 this.progs = (this.local_data.chks.length / 365) * 100
@@ -200,6 +199,16 @@
                     data = JSON.parse(localStorage.miraclecoursetool)
                     this.local_data = data
                 }   
+            },
+            post_to_mongo(){
+                data = {
+                   'op':'pull',
+                   'idx':'1',
+                   'id':'123',
+                }
+                $.post("api/update", data, function(data) {
+                    // alert(data);
+                });
             }
         },
         watch: {
@@ -208,6 +217,7 @@
         mounted:function () {
             this.load_localStroage();
             this.update_progress();
+            this.post_to_mongo();
         }
 
 });
