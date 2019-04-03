@@ -30,7 +30,7 @@ Vue.component("v-practice", {
             <el-checkbox v-model="chk" @change="oncheck_chage">完成</el-checkbox>
         </div>
         <div> <el-button type="text" class="button" @click="oninfoclick">課程內容</el-button> 
-            <el-button type="text" class="button" @click="onmp3click">播放音頻</el-button>
+            
         </div>
     </el-card>
     `,
