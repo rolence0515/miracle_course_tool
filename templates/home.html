@@ -56,9 +56,10 @@
         [[dialog_ttl]]
     </md-dialog-title>
     <md-dialog-content>
-        <div class="reg-text" v-html="dialog_txt" ></div>
+        <div id="copy" class="reg-text" v-html="dialog_txt" ></div>
     </md-dialog-content>
     <md-dialog-actions>
+        <md-button  class="md-primary clipboard" data-clipboard-target="#copy">複製</md-button>
         <md-button class="md-primary" @click="showDialog = false">關閉</md-button>
     </md-dialog-actions>
 </md-dialog>
@@ -75,6 +76,7 @@
                 }" />
     </md-dialog-content>
     <md-dialog-actions>
+            
         <md-button class="md-primary" @click="showDialog = false">關閉</md-button>
     </md-dialog-actions>
 </md-dialog>
@@ -87,26 +89,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/audiojs/1.0.1/audio.min.js"></script>
 <script src="/static/audiojs/audio.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/vue-aplayer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollup/2.4.1/jquery.scrollUp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+
 <script>
-// $(function () {
-//     $.scrollUp({
-//         scrollName: 'scrollUp',      // Element ID
-//         scrollDistance: 300,         // Distance from top/bottom before showing element (px)
-//         scrollFrom: 'top',           // 'top' or 'bottom'
-//         scrollSpeed: 300,            // Speed back to top (ms)
-//         easingType: 'linear',        // Scroll to top easing (see http://easings.net/)
-//         animation: 'fade',           // Fade, slide, none
-//         animationSpeed: 200,         // Animation speed (ms)
-//         scrollTrigger: false,        // Set a custom triggering element. Can be an HTML string or jQuery object
-//         scrollTarget: false,         // Set a custom target element for scrolling to. Can be element or number
-//         scrollText: 'Scroll to top', // Text for element, can contain HTML
-//         scrollTitle: false,          // Set a custom <a> title if required.
-//         scrollImg: false,            // Set true to use image
-//         activeOverlay: '#00FFFF',       // Set CSS color to display scrollUp active point, e.g '#00FFFF'
-//         zIndex: 2147483647           // Z-Index for the overlay
-//     });
-// });
+$(function () {
+    new ClipboardJS('.clipboard');
+});
 </script>
 <script>
     Vue.component('aplayer', VueAPlayer)
@@ -160,6 +148,7 @@
                 // this.dialog_mp3 = this.mp3lst[idx]['data']['link'];
                 this.dialog_ttl = ttl;
                 this.dialog_txt = txt;
+                this.dialog_idx = idx;
                 this.showDialog = true
             },
             onmp3click(ttl, txt, idx) {
@@ -167,6 +156,7 @@
                 this.dialog_mp3 = this.mp3lst[idx]['data']['link'];
                 this.dialog_ttl = ttl;
                 this.dialog_txt = txt;
+                this.dialog_idx = idx;
                 this.show_mp3_Dialog = true
             },
             onchangecheck(idx, chk) {
@@ -187,6 +177,9 @@
               
             },
             on_showmp3player(){
+
+            },
+            on_copy_txturl_to_clip(){
 
             },
             save_localStorage(){
