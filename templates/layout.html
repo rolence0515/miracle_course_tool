@@ -86,30 +86,34 @@
                     <div class="list">
                         <md-list :md-expand-single="expandSingle">
                             <md-list-item style="cursor:pointer;" @click="click_href('/0/60')">
-                                <md-icon>home</md-icon>
+                                <md-icon>library_books</md-icon>
                                 <span class="md-list-item-text">學員練習手冊[1-60]</span>
                             </md-list-item>
                             <md-list-item style="cursor:pointer;" @click="click_href('/60/90')">
-                                <md-icon>home</md-icon>
+                                <md-icon>library_books</md-icon>
                                 <span class="md-list-item-text">學員練習手冊[61-90]</span>
                             </md-list-item>
                             <md-list-item style="cursor:pointer;" @click="click_href('/90/120')">
-                                <md-icon>home</md-icon>
+                                <md-icon>library_books</md-icon>
                                 <span class="md-list-item-text">學員練習手冊[91-120]</span>
                             </md-list-item>
                             <md-list-item style="cursor:pointer;" @click="click_href('/120/150')">
-                                <md-icon>home</md-icon>
+                                <md-icon>library_books</md-icon>
                                 <span class="md-list-item-text">學員練習手冊[121-150]</span>
                             </md-list-item>
                             <md-list-item style="cursor:pointer;" @click="click_href('/150/172')">
-                                <md-icon>home</md-icon>
+                                <md-icon>library_books</md-icon>
                                 <span class="md-list-item-text">學員練習手冊[151-200]</span>
                             </md-list-item>
                             <md-list-item style="cursor:pointer;" @click="click_href('/171/365')">
-                                <md-icon>home</md-icon>
+                                <md-icon>library_books</md-icon>
                                 <span class="md-list-item-text">學員練習手冊[200-365]</span>
                             </md-list-item>
-                           
+                            <md-divider></md-divider>
+                            <md-list-item style="cursor:pointer;" @click="on_click_show_qr()">
+                                <md-icon>share</md-icon>
+                                <span class="md-list-item-text">與弟兄分享此站</span>
+                            </md-list-item>
                         </md-list>
 
                     </div>
@@ -130,6 +134,22 @@
 
 
         </md-app>
+
+        
+    <md-dialog :md-active.sync="show_qr" style="width: 90%;">
+        <md-dialog-title class="prm-text">
+            QR Code
+        </md-dialog-title>
+        <md-dialog-content class="text-center">
+            <img src="/static/img/qrcode.png" />
+        </md-dialog-content>
+        <md-dialog-actions>
+            <div >
+                <md-button class="md-primary" @click="show_qr = false">關閉</md-button>
+            </div>
+           
+        </md-dialog-actions>
+    </md-dialog>
 
         {% block bodybottom %} {% endblock %}
     </div>
@@ -160,12 +180,16 @@
                 expandSingle: true,
                 expandSetting: true,
                 expandStatistic: true,
-                breadpath: []
+                breadpath: [],
+                show_qr :false
             },
             methods: {
                 click_href(u) {
                     location.href = u
                 },
+                on_click_show_qr(){
+                    this.show_qr = true
+                }
             }
         }
 
