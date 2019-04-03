@@ -30,7 +30,7 @@
 </el-row>
 <el-row class="mb-3" type="flex" justify="end">
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="3">
-        <el-select style="float:right" v-model="local_data.ftr" placeholder="過濾">
+        <el-select style="float:right" v-model="local_data.ftr" @change="onftr_change" placeholder="過濾">
             <el-option label="顯示全部" value="顯示全部">
             </el-option>
             <el-option label="顯示未完成" value="顯示未完成">
@@ -42,7 +42,7 @@
     </el-col>
 </el-row>
 <el-row :gutter="5">
-    <el-col v-for="b in get_display_items()" class="mb-1" :xs="24" :sm="6" :md="4" :lg="4" :xl="4">
+    <el-col v-for="b in get_display_items()" class="mb-1" :xs="24" :sm="6" :md="6" :lg="6" :xl="4">
         <div class="grid-content bg-purple">
             <v-practice :chk="local_data.chks.includes(b['idx'])" 
             @onmp3click="onmp3click(b['d']['ttl'], b['d']['txt'], b['idx'])"
@@ -61,8 +61,8 @@
         <div class="reg-text" v-html="dialog_txt" ></div>
     </md-dialog-content>
     <md-dialog-actions>
-            <md-button class="md-primary" @click="showDialog = false">關閉</md-button>
-        </md-dialog-actions>
+        <md-button class="md-primary" @click="showDialog = false">關閉</md-button>
+    </md-dialog-actions>
 </md-dialog>
 
 <md-dialog :md-active.sync="show_mp3_Dialog" @md-opened="on_showmp3player" style="width: 90%;">
@@ -76,6 +76,9 @@
                     src: dialog_mp3
                 }" />
     </md-dialog-content>
+    <md-dialog-actions>
+        <md-button class="md-primary" @click="showDialog = false">關閉</md-button>
+    </md-dialog-actions>
 </md-dialog>
 
 {% endblock %} 
@@ -147,6 +150,9 @@
                     });
                 }
             },
+            onftr_change(v){
+                this.save_localStorage();
+            },
             ischk(idx) {
                 //判斷是否已完成
                 return
@@ -191,7 +197,8 @@
             load_localStroage(){
                 //載入資料
                 if (localStorage.miraclecoursetool) {
-                    this.local_data = JSON.parse(localStorage.miraclecoursetool)
+                    data = JSON.parse(localStorage.miraclecoursetool)
+                    this.local_data = data
                 }   
             }
         },
