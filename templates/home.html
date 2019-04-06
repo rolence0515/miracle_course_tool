@@ -64,7 +64,7 @@
     </md-dialog-actions>
 </md-dialog>
 
-<md-dialog :md-active.sync="show_mp3_Dialog" @md-opened="on_showmp3player"  @md-closed="on_closeDialog"  style="width: 90%;">
+<md-dialog :md-active.sync="show_mp3_Dialog" @md-opened="on_showmp3player"  @md-closed="on_closeDialog"  md-confirm-text="停止播放" style="width: 90%;height: 30%">
     <md-dialog-title class="prm-text">
         [[dialog_ttl]]
     </md-dialog-title>
