@@ -162,6 +162,7 @@ var playSound = function() {
                 this.dialog_idx = idx;
                 this.show_mp3_Dialog = true;
                 this.audio = new Audio(this.dialog_mp3);
+                this.audio.loop = true;
                 this.audio.play();
             },
             onchangecheck(idx, chk) {
