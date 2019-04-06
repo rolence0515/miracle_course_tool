@@ -64,16 +64,18 @@
     </md-dialog-actions>
 </md-dialog>
 
-<md-dialog :md-active.sync="show_mp3_Dialog" @md-opened="on_showmp3player" style="width: 90%;">
+<md-dialog :md-active.sync="show_mp3_Dialog" @md-opened="on_showmp3player"  @md-closed="on_closeDialog"  style="width: 90%;">
     <md-dialog-title class="prm-text">
         [[dialog_ttl]]
     </md-dialog-title>
     <md-dialog-content>
-        <iframe 
+        <audio id="audio" :src="dialog_mp3" preload="auto"  ></audio>
+        <button id="play">Play</button>
+        <!-- <iframe 
             frameborder="0"  
             style="width:100%;height: 200px"
             :src="dialog_mp3">    
-        </iframe>
+        </iframe> -->
     </md-dialog-content>
     <md-dialog-actions>
         <md-button class="md-primary" @click="show_mp3_Dialog = false">關閉</md-button>
@@ -85,20 +87,27 @@
 {% block js %}
 <script src="/static/js/v-practice.js?20190404"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/audiojs/1.0.1/audio.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/audiojs/1.0.1/audio.min.js"></script> -->
 <script src="/static/audiojs/audio.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/vue-aplayer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js"></script>
 
 <script>
 $(function () {
     new ClipboardJS('.clipboard');
+    // audiojs.events.ready(function() {
+    //     var as = audiojs.createAll();
+    // });
     
 });
+
+var playSound = function() {
+	audio.play();
+};
 </script>
 <script>
-    Vue.component('aplayer', VueAPlayer)
+    // Vue.component('aplayer', VueAPlayer)
 
     var obj;
     obj = new Vue({
@@ -120,7 +129,8 @@ $(function () {
             },
             msg: "test",//訊息
             progs:0,//目前進度
-            user_id:'1'//使用者編號
+            user_id:'1',//使用者編號
+            audio : null, //目前的播放音頻物件
         },
         methods: {
             get_display_items() {
@@ -163,7 +173,11 @@ $(function () {
                 //     {src: [this.dialog_mp3]}
                 // );
                 // sound.play();
-                this.show_mp3_Dialog = true
+                
+                this.show_mp3_Dialog = true;
+                this.audio = new Audio(this.dialog_mp3);
+                this.audio.play();
+                // var as = audiojs.createAll();
             },
             onchangecheck(idx, chk) {
                 //使用者勾選某課,idx課索引，chk是否勾選
@@ -172,7 +186,7 @@ $(function () {
                     post_to_mongo(op="push", chk_idx=idx, id=userid)
                 } else {
                     this.local_data.chks.pop(idx)
-                    post_to_mongo(op="pull", chk_idx=idx, id=userid)
+                    post_to_mongo(op="pull", chk_idx=idx, id=userid)
                 }
                 this.update_progress();
                 this.save_localStorage();
@@ -182,6 +196,9 @@ $(function () {
             },
             on_showDialog() {
               
+            },
+            on_closeDialog(){
+                this.audio.pause();
             },
             on_showmp3player(){
 
@@ -207,7 +224,7 @@ $(function () {
                    'idx':chk_idx, //課號
                    'id':this.user_id, //使用者號
                 }
-                $.post("api/update", data, function(data) {
+                $.post("api/update", data, function(data) {
                    console.log('ok')
                 });
             }
