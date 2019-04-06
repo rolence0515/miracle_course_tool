@@ -185,6 +185,7 @@ var playSound = function() {
             },
             on_closeDialog(){
                 this.audio.pause();
+                this.audio.currentTime = 0;
             },
             on_showmp3player(){
 
