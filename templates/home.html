@@ -179,7 +179,7 @@ var playSound = function() {
             },
             onmp3click(ttl, txt, idx) {
                 //點擊更多資訊
-                this.dialog_mp3 = this.mp3lst[idx]['data']['link'];
+                this.dialog_mp3 = this.mp3lst[idx+1]['data']['link'];
                 this.dialog_ttl = ttl;
                 this.dialog_txt = txt;
                 this.dialog_idx = idx;

@@ -20,6 +20,7 @@ with open("pratic_book.json", 'r') as f:
 with open("mp3.json", 'r') as f:
     data = json.loads(f.read())
 mp3list = [{"idx":i, "data" :d} for i, d in enumerate(data)]
+print(mp3list[1:10])
 
 
 
