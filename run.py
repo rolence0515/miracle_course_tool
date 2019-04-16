@@ -9,6 +9,7 @@ import hashlib
 from hanziconv import HanziConv
 from pymongo import MongoClient
 from bson.objectid import ObjectId #這東西再透過ObjectID去尋找的時候會用到
+import re
 
 
 app = Flask(__name__)
@@ -20,7 +21,7 @@ with open("pratic_book.json", 'r') as f:
 with open("mp3.json", 'r') as f:
     data = json.loads(f.read())
 mp3list = [{"idx":i, "data" :d} for i, d in enumerate(data)]
-print(mp3list[1:10])
+
 
 
 
@@ -38,6 +39,23 @@ mongo_uri = "mongodb://rolence0515:rolence0515@ds143342.mlab.com:43342/miracleco
 def home(rg1=0, rg2=60):
     return render_template('home.html', books = 練習手冊[rg1:rg2], mp3lst = mp3list)
 
+@app.route("/book/<int:idx>")
+def book(idx=1):
+    with open(f"static/奇蹟課程正文/奇蹟課程_{idx}.txt", 'r') as f:
+        text = f.read()
+        title = text.split("\n")[0]
+        icon='''
+        <strong class="lead">〉</strong> 
+        '''
+        pattern = '[0-9]+\.'
+        text = re.sub(pattern, icon, text)
+
+
+
+        text = text.replace("\n\n\n\n\n\n", "<hr/>").replace("\n\n", "<br/>").replace("\n\n\n\n", "").replace("\n", "").replace(title, "")
+  
+    return render_template('book.html', text=text, title=title)
+
 @app.route("/about")
 def about():
     return render_template('about.html')
@@ -50,7 +68,7 @@ def user():
 def save_to_mongo():
     
     data = request.form.to_dict() 
-    print(data)
+  
     usrid = data["id"]
     op = data['op']
     idx = data['idx']
@@ -64,7 +82,7 @@ def save_to_mongo():
                 "$pull": { "chks": { "$in": [ idx ] }}
                 }, upsert = True)
     else:
-        print('push') 
+      
         coll.update(
             {"_id":usrid}, 
             { 

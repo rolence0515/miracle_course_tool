@@ -111,6 +111,15 @@
                                 <span class="md-list-item-text">學員練習手冊[200-365]</span>
                             </md-list-item>
                             <md-divider></md-divider>
+                            <md-list-item md-expand :md-expanded.sync="expandSetting" >
+                                    <md-icon>book</md-icon>
+                                    <span class="md-list-item-text">奇蹟課程正文</span>
+                                    <md-list slot="md-expand">
+                                        <md-list-item v-for="idx in (1,32)" class="md-inset" @click="click_href('/book/' + idx )">奇蹟課程正文_[[idx]]</md-list-item>
+                                        
+                                    </md-list>
+                                </md-list-item>
+                                <md-divider></md-divider>
                            
                             <md-list-item style="cursor:pointer;" @click="click_href('/user')">
                                     <md-icon>bar_chart</md-icon>
@@ -132,6 +141,7 @@
                             </md-list-item>
                         </md-list>
 
+                       
                     </div>
                 </div>
 
