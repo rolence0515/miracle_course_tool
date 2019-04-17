@@ -49,12 +49,10 @@ def book(idx=1):
         '''
         pattern = '[0-9]+\.'
         text = re.sub(pattern, icon, text)
-
-
-
         text = text.replace("\n\n\n\n\n\n", "<hr/>").replace("\n\n", "<br/>").replace("\n\n\n\n", "").replace("\n", "").replace(title, "")
+        section = text.split("<hr/>")
   
-    return render_template('book.html', text=text, title=title)
+    return render_template('book.html', text=text, section = section, title=title)
 
 @app.route("/about")
 def about():

@@ -36,9 +36,15 @@
     <el-col :span="24">
             <el-card shadow="never">
                     <div slot="header" class="clearfix"><h4>{{title}}</h4></div>
-                    <p class="reg-text" style="line-height:1.5em;letter-spacing:1px">
-                    {{ text | safe}}
-                </p>
+                   
+
+                    <el-tabs tab-position="left" >
+                        <el-tab-pane v-for="sec in section"  class="reg-text" :label="get_sec_title(sec)">
+                                <div v-html="sec"></div>
+                                <hr/> 
+                        </el-tab-pane>
+                    
+                    </el-tabs>
             </el-card>
             
     </el-col>
@@ -82,9 +88,13 @@ Array.prototype.remove = function() {
         mixins: [layoutVue],//layout 資料
         breadpath: [{ key: '首頁', path: '奇蹟課程正文' }],//面包序
         data: {
-
+            section:{{section| safe}}
         },
         methods: {
+            get_sec_title(sec){
+                console.log(sec.split("<br/>")[1]);
+                return sec.split("<br/>")[1];
+            }
            
         },
         watch: {
