@@ -36,11 +36,14 @@
     <el-col :span="24">
             <el-card shadow="never">
                     <div slot="header" class="clearfix"><h4>{{title}}</h4></div>
-                   
+                    <md-dialog-actions>
+                        <md-button  class="md-primary clipboard" data-clipboard-target="#copy">複製</md-button>
+                       
+                    </md-dialog-actions>
 
                     <el-tabs :tab-position="isMobile() ? 'top' : 'left'" >
                         <el-tab-pane v-for="sec in section"  class="reg-text" :label="get_sec_title(sec)">
-                                <div v-html="sec"></div>
+                                <div id="copy" v-html="sec"></div>
                                 <hr/> 
                         </el-tab-pane>
                     

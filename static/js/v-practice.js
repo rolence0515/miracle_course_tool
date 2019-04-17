@@ -54,6 +54,7 @@ Vue.component("v-practice", {
         onmp3click(){
             this.$emit('onmp3click','nothing'); 
         },
+        
         oncheck_chage(ischeck){
             this.$emit('onchangecheck',this.id, !this.chk)
         }
