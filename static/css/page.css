@@ -14,3 +14,7 @@ body{
 html.md-theme-default{
 	color: #555;
 }
+.md-theme-default :not(input):not(textarea)::selection {
+	background-color: #F2F6FC !important;
+	color: #555 !important;
+}

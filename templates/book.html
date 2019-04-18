@@ -37,13 +37,13 @@
             <el-card shadow="never">
                     <div slot="header" class="clearfix"><h4>{{title}}</h4></div>
                     <md-dialog-actions>
-                        <md-button  class="md-primary clipboard" data-clipboard-target="#copy">複製</md-button>
+                        <md-button  class="md-primary clipboard" :data-clipboard-target="'#copy_'+ act_tab_index">複製</md-button>
                        
                     </md-dialog-actions>
 
-                    <el-tabs :tab-position="isMobile() ? 'top' : 'left'" >
-                        <el-tab-pane v-for="sec in section"  class="reg-text" :label="get_sec_title(sec)">
-                                <div id="copy" v-html="sec"></div>
+                    <el-tabs v-model="act_tab_name" @tab-click="on_tab_click" :tab-position="isMobile() ? 'top' : 'left'" >
+                        <el-tab-pane :id="index" v-for="(sec, index) in section"  class="reg-text" :label="get_sec_title(sec)">
+                                <div :id="'copy_'+ index" v-html="sec"></div>
                                 <hr/> 
                         </el-tab-pane>
                     
@@ -100,12 +100,17 @@ Array.prototype.remove = function() {
         mixins: [layoutVue,mixinDetictingMobile],//layout 資料
         breadpath: [{ key: '首頁', path: '奇蹟課程正文' }],//面包序
         data: {
-            section:{{section| safe}}
+            section:{{section| safe}},
+            act_tab_name:"",
+            act_tab_index:0
         },
         methods: {
             get_sec_title(sec){
                 // console.log(sec.split("<br/>")[1]);
                 return sec.split("<br/>")[1];
+            },
+            on_tab_click(elm){
+                this.act_tab_index = elm["index"]
             }
            
         },
