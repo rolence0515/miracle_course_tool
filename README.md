@@ -30,3 +30,5 @@ http://docs.google.com/uc?export=open&id=XXXXXXXXXXXXXXXXXX
 $ git add .
 $ git commit -m "Initialize Project"
 $ git remote add origin https://github.com/rolence0515/miracle_course_tool.git
+
+larry in
