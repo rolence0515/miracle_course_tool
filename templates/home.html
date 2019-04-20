@@ -84,14 +84,12 @@
 <script src="//cdn.jsdelivr.net/npm/vue-aplayer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js"></script>
+<script src="/static/js/mixin_get_selection_text.js"></script>
 
 <script>
 $(function () {
     new ClipboardJS('.clipboard');
-    // audiojs.events.ready(function() {
-    //     var as = audiojs.createAll();
-    // });
-    
+
 });
 
 Array.prototype.remove = function() {
@@ -238,6 +236,15 @@ var playSound = function() {
                 $.post("api/update", data, function(data) {
                    console.log('ok')
                 });
+            },
+            on_selectionEnd(selectedText){
+                that = this;
+                this.$notify({
+                    showClose: true,
+                    title: selectedText,
+                    message: "T" +that.T + "-" + that.act_tab_index ,
+                    duration:(60*1000)
+                });   
             }
         },
         watch: {

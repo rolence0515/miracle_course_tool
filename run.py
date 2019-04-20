@@ -52,7 +52,7 @@ def book(idx=1):
         text = text.replace("\n\n\n\n\n\n", "<hr/>").replace("\n\n", "<br/>").replace("\n\n\n\n", "").replace("\n", "").replace(title, "")
         section = text.split("<hr/>")
   
-    return render_template('book.html', text=text, section = section, title=title)
+    return render_template('book.html', text=text, section = section, title=title, T=idx)
 
 @app.route("/about")
 def about():
