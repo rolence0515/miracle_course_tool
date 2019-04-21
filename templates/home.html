@@ -114,7 +114,7 @@ var playSound = function() {
     obj = new Vue({
         delimiters: ['[[', ']]'],
         el: '#layout',
-        mixins: [layoutVue],//layout 資料
+        mixins: [layoutVue,mixinGetSelectionText],//layout 資料
         breadpath: [{ key: '首頁', path: '' }],//面包序
         data: {
             show_mp3_Dialog :false, //是否顯示mp3對話框
