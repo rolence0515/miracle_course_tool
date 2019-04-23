@@ -44,9 +44,11 @@
                         <el-tab-pane :id="index" v-for="(sec, index) in section"  class="reg-text" :label="get_sec_title(sec)">
                                 <div :id="'copy_'+ index" v-html="sec"></div>
                                 <hr/> 
+                                <v-note :id="'T_' + T + '_' +index" show="true"></v-note>
                         </el-tab-pane>
                     
                     </el-tabs>
+                    
             </el-card>
             
     </el-col>
@@ -65,9 +67,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js"></script>
 <script src="/static/js/mixin_get_selection_text.js"></script>
 <script src="/static/js/mixin_detictingMobile.js"></script>
+<script src="/static/js/v-note.js"></script>
 
 <script>
-   
+ 
     //複制
     $(function () {
         new ClipboardJS('.clipboard');
@@ -116,7 +119,8 @@
                     message: "T" +that.T + "-" + that.act_tab_index ,
                     duration:(60*1000)
                 });   
-            }
+            },
+           
         },
         watch: {
 
