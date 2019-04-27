@@ -62,6 +62,23 @@ def about():
 def user():
     return render_template('user.html')
 
+
+@app.route('/api/note', methods=['POST'])
+def note():
+    
+    data = request.form.to_dict() 
+
+    client = MongoClient(mongo_uri)
+    db = client.miraclecoursetooldb
+    coll = db.usernotes
+    coll.update(
+        {"_id": data["user_id"] + data["note_id"] }, 
+        data, 
+        upsert=True
+    )
+    print('upsert note ok')
+    return 'ok'
+
 @app.route('/api/update', methods=['POST'])
 def save_to_mongo():
     

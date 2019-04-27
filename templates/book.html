@@ -17,6 +17,22 @@
         color: #606266
     }
 
+    /*暗色*/
+    .reg-text {
+        color: white
+    }
+    .el-tabs__item{
+        color:white;
+    }
+    .el-card {
+        background-color: #030202;
+        color: white;
+    }
+    .el-textarea__inner{
+        background-color: #c8aa74;
+        color: black;
+    }
+
 
 </style>
 {% endblock %}
@@ -37,14 +53,14 @@
                     <div slot="header" class="clearfix"><h4>{{title}}</h4></div>
                     <md-dialog-actions>
                         <md-button  class="md-primary clipboard" :data-clipboard-target="'#copy_'+ act_tab_index">複製</md-button>
-                       
+                        <md-button  class="md-primary clipboard">色系</md-button>
                     </md-dialog-actions>
 
                     <el-tabs v-model="act_tab_name" @tab-click="on_tab_click" :tab-position="isMobile() ? 'top' : 'left'" >
                         <el-tab-pane :id="index" v-for="(sec, index) in section"  class="reg-text" :label="get_sec_title(sec)">
                                 <div :id="'copy_'+ index" v-html="sec"></div>
                                 <hr/> 
-                                <v-note :id="'T_' + T + '_' +index" show="true"></v-note>
+                                <v-note @update="on_note_change" :id="'T_' + T + '_' +index" show="true" ></v-note>
                         </el-tab-pane>
                     
                     </el-tabs>
@@ -100,10 +116,10 @@
             section:{{section| safe}},
             act_tab_name:"",
             act_tab_index:0,
-            T:{{T|safe}}
+            T:{{T|safe}},
         },
         methods: {
-            
+           
             get_sec_title(sec){
                 // console.log(sec.split("<br/>")[1]);
                 return sec.split("<br/>")[1];
@@ -116,9 +132,26 @@
                 this.$notify({
                     showClose: true,
                     title: selectedText,
-                    message: "T" +that.T + "-" + that.act_tab_index ,
+                    dangerouslyUseHTMLString: true,
+                    message: "<p>T" +that.T + "-" + that.act_tab_index,
                     duration:(60*1000)
                 });   
+              
+            },
+            on_note_change(id , note){
+                var note_id=id
+                this.post_to_mongo('1', note_id, note)
+            },
+            post_to_mongo(user_id, note_id, note){
+                //儲存資料庫
+                var data = {
+                   'user_id': user_id,
+                   'note_id': note_id,
+                   'note': note
+                }
+                $.post("/api/note", data, function(data) {
+                   console.log('ok')
+                });
             },
            
         },

@@ -26,37 +26,37 @@ Vue.component("v-note", {
     template: `
     <div :id="id" v-show="show">
        
-        <el-input class="" style="color:#000000;font-size:1em;background:#F2F6FC" placeholder="筆記" autosize type="textarea" v-model="text"></el-input>
+        <el-input class="" style="color:#000000;font-size:1em;background:#F2F6FC" placeholder="筆記" autosize type="textarea" v-model="value"></el-input>
         
     </div>
     `,
-    props:["id",  'show'],
+    props:["id", 'show'],
     data(){
         return {
-            text:''
+            value:''
         }
     },
     mounted() {
         this.load_localStroage();
     },
     watch: {
-        text: function(){
-            this.save_localStorage()   
-        }
-        
+        value: function(){
+            this.save_localStorage();
+            this.$emit("update", this.id , this.value); 
+        },
     },
     methods:{
         onclicksave(ischeck){
-            this.$emit('onclicksave',this.id, this.text)
+            this.$emit('onclicksave',this.id, this.value)
         },
         save_localStorage(){
             //save to local straoge
-            localStorage.setItem(this.id, this.text)
+            localStorage.setItem(this.id, this.value)
         },
         load_localStroage(){
             //載入資料
             if (localStorage.getItem(this.id)) {
-                this.text = localStorage.getItem(this.id)
+                this.value = localStorage.getItem(this.id)
             }
         },
         
