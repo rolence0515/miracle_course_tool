@@ -18,21 +18,17 @@
     }
 
     /*暗色*/
-    .reg-text {
-        color: white
-    }
-    .el-tabs__item{
-        color:white;
-    }
-    .el-card {
-        background-color: #030202;
+    .dark-theam, .dark-theam .el-tabs__item, .dark-theam .el-tab-pane{
         color: white;
+        background-color: #030202;
+        letter-spacing:1px;
+        font-size: 1em;
     }
-    .el-textarea__inner{
+    .dark-theam-note .el-textarea__inner{
         background-color: #c8aa74;
         color: black;
     }
-
+    
 
 </style>
 {% endblock %}
@@ -49,18 +45,18 @@
 </el-row>
 <el-row >
     <el-col :span="24">
-            <el-card shadow="never">
+            <el-card :class="{'dark-theam': isDark}" shadow="never">
                     <div slot="header" class="clearfix"><h4>{{title}}</h4></div>
                     <md-dialog-actions>
                         <md-button  class="md-primary clipboard" :data-clipboard-target="'#copy_'+ act_tab_index">複製</md-button>
-                        <md-button  class="md-primary clipboard">色系</md-button>
+                        <md-button  class="md-primary clipboard" @click="isDark = !isDark">色系</md-button>
                     </md-dialog-actions>
 
                     <el-tabs v-model="act_tab_name" @tab-click="on_tab_click" :tab-position="isMobile() ? 'top' : 'left'" >
                         <el-tab-pane :id="index" v-for="(sec, index) in section"  class="reg-text" :label="get_sec_title(sec)">
                                 <div :id="'copy_'+ index" v-html="sec"></div>
                                 <hr/> 
-                                <v-note @update="on_note_change" :id="'T_' + T + '_' +index" show="true" ></v-note>
+                                <v-note :class="{'dark-theam-note' :isDark}" @update="on_note_change" :id="'T_' + T + '_' +index" show="true" ></v-note>
                         </el-tab-pane>
                     
                     </el-tabs>
@@ -117,6 +113,7 @@
             act_tab_name:"",
             act_tab_index:0,
             T:{{T|safe}},
+            isDark:false
         },
         methods: {
            
