@@ -46,7 +46,9 @@
             :chk="b['chk']" 
             @onmp3click="onmp3click(b['d']['ttl'], b['d']['txt'], b['idx'])"
             @oninfoclick="oninfoclick(b['d']['ttl'], b['d']['txt'], b['idx'])" :id="b['idx']" :title="b['d']['ttl']"
-            @onchangecheck="onchangecheck">
+            @onchangecheck="onchangecheck"
+            @onmp3stop="onmp3stop"
+            >
             </v-practice>
         </div>
     </el-col>
@@ -85,6 +87,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js"></script>
 <script src="/static/js/mixin_get_selection_text.js"></script>
+<script src="/static/js/minxin_audio.js"></script>
 
 <script>
 $(function () {
@@ -103,9 +106,9 @@ Array.prototype.remove = function() {
     return this;
 };
 
-var playSound = function() {
-	audio.play();
-};
+// var playSound = function() {
+// 	audio.play();
+// };
 </script>
 <script>
     // Vue.component('aplayer', VueAPlayer)
@@ -114,7 +117,7 @@ var playSound = function() {
     obj = new Vue({
         delimiters: ['[[', ']]'],
         el: '#layout',
-        mixins: [layoutVue,mixinGetSelectionText],//layout 資料
+        mixins: [layoutVue,mixinGetSelectionText,audioplayer],//layout 資料
         breadpath: [{ key: '首頁', path: '' }],//面包序
         data: {
             show_mp3_Dialog :false, //是否顯示mp3對話框
@@ -131,7 +134,7 @@ var playSound = function() {
             msg: "test",//訊息
             progs:0,//目前進度
             user_id:'1',//使用者編號
-            audio : null, //目前的播放音頻物件
+            // audio : null, //目前的播放音頻物件
             displayItems:[]
         },
         methods: {
@@ -178,13 +181,14 @@ var playSound = function() {
             onmp3click(ttl, txt, idx) {
                 //點擊更多資訊
                 this.dialog_mp3 = this.mp3lst[idx+1]['data']['link'];
-                this.dialog_ttl = ttl;
-                this.dialog_txt = txt;
-                this.dialog_idx = idx;
-                this.show_mp3_Dialog = true;
-                this.audio = new Audio(this.dialog_mp3);
-                this.audio.loop = true;
-                this.audio.play();
+                // this.dialog_ttl = ttl;
+                // this.dialog_txt = txt;
+                // this.dialog_idx = idx;
+                // this.show_mp3_Dialog = true;
+                // this.audio = new Audio(this.dialog_mp3);
+                // this.audio.loop = true;
+                // this.audio.play();
+                this.play_mp3(this.dialog_mp3);
             },
             onchangecheck(idx, chk) {
                 //使用者勾選某課,idx課索引，chk是否勾選
@@ -205,9 +209,12 @@ var playSound = function() {
             on_showDialog() {
               
             },
+            onmp3stop(){
+                this.stop_mp3();
+            },
             on_closeDialog(){
-                this.audio.pause();
-                this.audio.currentTime = 0;
+                // this.audio.pause();
+                // this.audio.currentTime = 0;
             },
             on_showmp3player(){
 

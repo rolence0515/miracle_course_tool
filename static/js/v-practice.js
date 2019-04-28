@@ -31,13 +31,15 @@ Vue.component("v-practice", {
         </div>
         <div> 
             <el-button type="text" class="button" @click="oninfoclick">課程內容</el-button> 
-            <el-button type="text" class="button" @click="onmp3click">音頻播放</el-button> 
+            <el-button v-show="!is_playmp3" type="text" class="button" @click="onmp3click">音頻播放</el-button> 
+            <el-button type="danger"  v-show="is_playmp3"  class="button" @click="onmp3stop">音頻停止<i class="el-icon-d-arrow-right el-icon--right"></i></el-button> 
         </div>
     </el-card>
     `,
     props:["id", "title", 'body', 'chk'],
     data(){
         return {
+            is_playmp3:false
             
         }
     },
@@ -52,9 +54,13 @@ Vue.component("v-practice", {
             this.$emit('oninfoclick','nothing'); 
         },
         onmp3click(){
+            this.is_playmp3= true;
             this.$emit('onmp3click','nothing'); 
         },
-        
+        onmp3stop(){
+            this.is_playmp3= false;
+            this.$emit('onmp3stop','nothing');   
+        },
         oncheck_chage(ischeck){
             this.$emit('onchangecheck',this.id, !this.chk)
         }
