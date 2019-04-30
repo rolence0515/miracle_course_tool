@@ -139,6 +139,10 @@
                                 <md-icon>share</md-icon>
                                 <span class="md-list-item-text">與弟兄分享此站</span>
                             </md-list-item>
+                            <md-list-item style="cursor:pointer;" @click="recover_note_online()">
+                                <md-icon>reply</md-icon>
+                                <span class="md-list-item-text">回復筆記</span>
+                            </md-list-item>
                         </md-list>
 
                        
@@ -215,6 +219,34 @@
                 },
                 on_click_show_qr(){
                     this.show_qr = true
+                },
+                recover_note_online(){
+                    this.$confirm('此操作將蓋掉本機筆記，是否繼續', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning',
+                        center: true
+                        }).then(() => {
+                            confirmobj = this;
+                            $.post("/api/note_recover", null, function(data) {
+                                var notes = JSON.parse(data)
+                                notes.forEach(function(n){
+                                    //save to local stroage
+                                    localStorage[n["note_id"]] = n["note"]
+                                } );
+                                confirmobj.$message({
+                                    type: 'success',
+                                    message: '成功回復!'
+                                });
+                            });
+                            
+                           
+                        }).catch(() => {
+                            this.$message({
+                                type: 'info',
+                                message: '取消回復'
+                            });
+                        });
                 }
             }
         }

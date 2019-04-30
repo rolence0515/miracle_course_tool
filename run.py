@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # heroku acc/pw : rolence0515@gmail.com/zaq1@#$%^&*()
 import json
-from flask import Flask, render_template,session,request
+from flask import Flask, render_template,session,request, jsonify
 import requests
 import base64
 import time
@@ -78,6 +78,15 @@ def note():
     )
     print('upsert note ok')
     return 'ok'
+
+@app.route('/api/note_recover', methods=['POST'])
+def note_recover():
+    client = MongoClient(mongo_uri)
+    db = client.miraclecoursetooldb
+    coll = db.usernotes
+    lst = list(coll.find({"user_id":"1"}))
+    return json.dumps(lst)
+
 
 @app.route('/api/update', methods=['POST'])
 def save_to_mongo():

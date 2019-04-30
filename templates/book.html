@@ -80,6 +80,7 @@
 <script src="/static/js/mixin_get_selection_text.js"></script>
 <script src="/static/js/mixin_detictingMobile.js"></script>
 <script src="/static/js/v-note.js"></script>
+<script src="/static/js/mixin_localstroage.js"></script>
 
 <script>
  
@@ -106,7 +107,7 @@
     obj = new Vue({
         delimiters: ['[[', ']]'],
         el: '#layout',
-        mixins: [layoutVue, mixinDetictingMobile, mixinGetSelectionText],//layout 資料
+        mixins: [layoutVue, mixinDetictingMobile, mixinGetSelectionText, mixinLocalStorge],//layout 資料
         breadpath: [{ key: '首頁', path: '奇蹟課程正文' }],//面包序
         data: {
             section:{{section| safe}},
@@ -158,6 +159,7 @@
         mounted:function () {
           
             this.init_getSelectionText()
+            this.init_ls("book", ['isDark'])
         }
 
 });
