@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}{% endblock %} - 奇蹟課程學員練習工具</title>
+    <title>{% block title %}{% endblock %} - OKR企業目標管理工具</title>
    
     <meta content="width=device-width,initial-scale=1,minimal-ui" name="viewport">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- Add this to <head> -->
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
-   <link type="text/css" rel="stylesheet" href="/static/css/page.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/page.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/main.scss" />
     <style lang="scss" scoped>
         /* 防止載入初始化 */
         [v-cloak]{
@@ -57,7 +58,7 @@
                     <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
                         <md-icon>menu</md-icon>
                     </md-button>
-                    <span class="md-title">奇蹟課程學員練習工具</span>
+                    <span class="md-title">OKR企業目標管理工具</span>
                     <span style="flex: 1 1 auto;"></span>
                     <md-button class="md-icon-button" title="檢閱帳戶" v-popover:popover>
                         <md-icon>person</md-icon>
@@ -85,64 +86,8 @@
                 <div class="full-control">
                     <div class="list">
                         <md-list :md-expand-single="expandSingle">
-                            <md-divider></md-divider>
-                            <md-list-item style="cursor:pointer;" @click="click_href('/0/60')">
-                                <md-icon>library_books</md-icon>
-                                <span class="md-list-item-text">學員練習手冊[1-60]</span>
-                            </md-list-item>
-                            <md-list-item style="cursor:pointer;" @click="click_href('/60/90')">
-                                <md-icon>library_books</md-icon>
-                                <span class="md-list-item-text">學員練習手冊[61-90]</span>
-                            </md-list-item>
-                            <md-list-item style="cursor:pointer;" @click="click_href('/90/120')">
-                                <md-icon>library_books</md-icon>
-                                <span class="md-list-item-text">學員練習手冊[91-120]</span>
-                            </md-list-item>
-                            <md-list-item style="cursor:pointer;" @click="click_href('/120/150')">
-                                <md-icon>library_books</md-icon>
-                                <span class="md-list-item-text">學員練習手冊[121-150]</span>
-                            </md-list-item>
-                            <md-list-item style="cursor:pointer;" @click="click_href('/150/172')">
-                                <md-icon>library_books</md-icon>
-                                <span class="md-list-item-text">學員練習手冊[151-200]</span>
-                            </md-list-item>
-                            <md-list-item style="cursor:pointer;" @click="click_href('/171/365')">
-                                <md-icon>library_books</md-icon>
-                                <span class="md-list-item-text">學員練習手冊[200-365]</span>
-                            </md-list-item>
-                            <md-divider></md-divider>
-                            <md-list-item md-expand :md-expanded.sync="expandSetting" >
-                                    <md-icon>book</md-icon>
-                                    <span class="md-list-item-text">奇蹟課程正文</span>
-                                    <md-list slot="md-expand">
-                                        <md-list-item v-for="idx in (1,31)" class="md-inset" @click="click_href('/book/' + idx )">奇蹟課程〈第[[idx]]章〉</md-list-item>
-                                        
-                                    </md-list>
-                                </md-list-item>
-                                <md-divider></md-divider>
-                           
-                            <md-list-item style="cursor:pointer;" @click="click_href('/user')">
-                                    <md-icon>bar_chart</md-icon>
-                                    <span class="md-list-item-text">個人統計</span>
-                            </md-list-item>
-                            <md-list-item style="cursor:pointer;" @click="click_href('/user')">
-                                <md-icon>bar_chart</md-icon>
-                                <span class="md-list-item-text">整體統計</span>
-                        </md-list-item>
-
-                            <md-divider></md-divider>
-                            <md-list-item style="cursor:pointer;" @click="click_href('/about')">
-                                <md-icon>info</md-icon>
-                                <span class="md-list-item-text">關於本站</span>
-                            </md-list-item>
-                            <md-list-item style="cursor:pointer;" @click="on_click_show_qr()">
-                                <md-icon>share</md-icon>
-                                <span class="md-list-item-text">與弟兄分享此站</span>
-                            </md-list-item>
-                            <md-list-item style="cursor:pointer;" @click="recover_note_online()">
-                                <md-icon>reply</md-icon>
-                                <span class="md-list-item-text">回復筆記</span>
-                            </md-list-item>
+                            
+                       
                         </md-list>
 
                        
@@ -171,7 +116,7 @@
             QR Code
         </md-dialog-title>
         <md-dialog-content class="text-center">
-            <img src="/static/img/qrcode.png" />
+          
         </md-dialog-content>
         <md-dialog-actions>
             <div >
@@ -220,34 +165,6 @@
                 on_click_show_qr(){
                     this.show_qr = true
                 },
-                recover_note_online(){
-                    this.$confirm('此操作將蓋掉本機筆記，是否繼續', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning',
-                        center: true
-                        }).then(() => {
-                            confirmobj = this;
-                            $.post("/api/note_recover", null, function(data) {
-                                var notes = JSON.parse(data)
-                                notes.forEach(function(n){
-                                    //save to local stroage
-                                    localStorage[n["note_id"]] = n["note"]
-                                } );
-                                confirmobj.$message({
-                                    type: 'success',
-                                    message: '請重新刷新本頁!'
-                                });
-                            });
-                            
-                           
-                        }).catch(() => {
-                            this.$message({
-                                type: 'info',
-                                message: '取消回復'
-                            });
-                        });
-                }
             }
         }
 

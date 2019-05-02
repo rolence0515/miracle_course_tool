@@ -1,5 +1,5 @@
 //判斷是否為手機的js
-var mixinDetictingMobile = {
+var mixindetictingmobile = {
     methods: {
         isMobile: function () {
             var check = false;

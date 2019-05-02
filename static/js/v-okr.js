@@ -22,7 +22,7 @@
    
 *************************************/
 
-Vue.component("v-practice", {
+Vue.component("v-okr", {
     template: `
     <el-card shadow="never" style="height:150px">
         <div class="mb-2 crop-text-2 reg-text">{{title}}</div>
@@ -53,17 +53,5 @@ Vue.component("v-practice", {
         oninfoclick(){
             this.$emit('oninfoclick','nothing'); 
         },
-        onmp3click(){
-            this.is_playmp3= true;
-            this.$emit('onmp3click','nothing'); 
-        },
-        onmp3stop(){
-            this.is_playmp3= false;
-            this.$emit('onmp3stop','nothing');   
-        },
-        oncheck_chage(ischeck){
-            this.$emit('onchangecheck',this.id, !this.chk)
-        }
-        
     }
  });
