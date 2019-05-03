@@ -23,18 +23,19 @@
 *************************************/
 
 Vue.component("v-okr", {
+    delimiters: ['[[', ']]'],
     template: `
     <!-- okr-card start -->
     <el-card shadow="hover" class="mb-4" :class="{'dark':isdark}">
         <div slot="header" style="" class="clearfix">
-            <span >OKR</span>
+            <span >[[ isdark ? "與你分享的" : ""]] OKR</span>
             <el-button size="mini" style="float: right; padding: 3px 0" type="text">分享</el-button>
         </div>
         <div  class="clearfix">
             <md-field>
                 <!-- 目標 -->
                 <label>你的目標</label>
-                <md-input style="font-size:1.4em"></md-input>
+                <md-input v-model="o" style="font-size:1.4em"></md-input>
             </md-field>
             <div class="mb-3">
                 <!-- 時間 -->
@@ -75,7 +76,8 @@ Vue.component("v-okr", {
         return {
             member:[],
             complete:10,
-            enddt:'2019-05-15'
+            enddt:'2019-05-15',
+            o:""
         }
     },
     mounted() {

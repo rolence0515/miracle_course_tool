@@ -1,4 +1,4 @@
-{% extends "layout.html" %} {% block title %}OKR目標管理工具{% endblock %} {% block head %}
+{% extends "layout.html" %} {% block title %}OKRER{% endblock %} {% block head %}
 <style type="text/css">
     .crop-text-2 {
         /*兩行點點點*/
@@ -48,7 +48,7 @@
 </style>
 {% endblock %}
  {% block content %}
-<h1 class="mb-3">OKR目標管理工具</h1>
+<h3 class="mb-3">OKR企業目標管理工具</h3>
 
 <el-row class="mb-3">
     <el-col :span="24">
@@ -58,13 +58,17 @@
 <el-row class="mb-3" type="flex" justify="end">
         <el-col :span="24">
     
-            <el-button type="primary" size="small" icon="el-icon-circle-plus" style="float: right;">新增目標(O)</el-button>
+            <el-button type="primary" size="small" icon="el-icon-circle-plus" style="float: right;">新建OKR</el-button>
             <el-select size="small" class="mr-1" style="float:right" v-model="ftr" @change="on_ftr_change" placeholder="過濾">
                 <el-option label="顯示全部" value="顯示全部">
                 </el-option>
                 <el-option label="顯示未完成" value="顯示未完成">
                 </el-option>
                 <el-option label="顯示已完成" value="顯示已完成">
+                </el-option>
+                <el-option label="顯示私人的" value="顯示私人的">
+                </el-option>
+                <el-option label="顯示與我分享的" value="顯示與我分享的">
                 </el-option>
             </el-select>
         </el-col>
