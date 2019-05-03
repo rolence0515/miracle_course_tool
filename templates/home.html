@@ -25,6 +25,25 @@
         font-size: 2em;
        
     }
+    /* 卡片高度修正 */
+    .el-card__header{
+        padding:10px 20px !important
+    }
+    .el-card__body {
+        padding: 15px 20px !important;
+    }
+
+    /* 暗色系 */
+    .dark {
+        border: 1px solid #303133!important;
+    }
+    .dark .el-card__header{
+        background-color: #909399 !important;
+        color: white !important;
+    }
+    .dark .el-card__body {
+        background-color: #EBEEF5;
+    }
 
 </style>
 {% endblock %}
@@ -36,113 +55,44 @@
         <md-progress-bar md-mode="determinate" :md-value="progs"></md-progress-bar>
     </el-col>
 </el-row>
+<el-row class="mb-3" type="flex" justify="end">
+        <el-col :span="24">
+    
+            <el-button type="primary" size="small" icon="el-icon-circle-plus" style="float: right;">新增目標(O)</el-button>
+            <el-select size="small" class="mr-1" style="float:right" v-model="ftr" @change="on_ftr_change" placeholder="過濾">
+                <el-option label="顯示全部" value="顯示全部">
+                </el-option>
+                <el-option label="顯示未完成" value="顯示未完成">
+                </el-option>
+                <el-option label="顯示已完成" value="顯示已完成">
+                </el-option>
+            </el-select>
+        </el-col>
+    </el-row>
 <el-row >
     <el-col class="mb-1" :span="24">
         
         <el-tabs v-model="act_tab_name" @tab-click="on_tab_click" :tab-position="isMobile() ? 'top' : 'left'">
-            <el-tab-pane id="0"  class="reg-text"  label="年度目標">
-
-                <el-row class="mb-3" type="flex" justify="end">
-                        <el-col :span="24">
-                           
-                            <el-button type="primary" size="small" icon="el-icon-circle-plus" style="float: right;">新增目標(O)</el-button>
-                            <el-select size="small"  class="mr-1" style="float:right" v-model="ftr" @change="on_ftr_change" placeholder="過濾">
-                                    <el-option label="顯示全部" value="顯示全部">
-                                    </el-option>
-                                    <el-option label="顯示未完成" value="顯示未完成">
-                                    </el-option>
-                                    <el-option label="顯示已完成" value="顯示已完成">
-                                    </el-option>
-                                </el-select>
-                        </el-col>
-                    </el-row>
-                    <el-row class="mb-2">
-                        <el-col :span="24">
-                              
-                               
-                        </el-col>
-                    </el-row>
-                    
-                    <el-card >
-                        <div slot="header" class="clearfix">
-                            <md-field>
-                                <label >你的目標</label>
-                                <md-input style="font-size:1.4em"></md-input>
-                            </md-field>
-                            
-                            <div class="mb-3">
-                                <md-icon>event</md-icon>
-                                <label class="mr-2">截止時間</label>
-                                <el-date-picker style="width:300px" class="mr-1" type="date" placeholder="選擇日期"  ></el-date-picker>
-                                <a style="font-size:12px" href="http://www.google.com/calendar/event?action=TEMPLATE&text=查看CDP用戶有沒有增長&dates=20190515/20190516&details=做了行銷活動要查看用戶有沒有增長=>http://cdppj.eagleeye.com.tw:8888/report/rebuy&trp=false"
-                                target="_blank" rel="nofollow">加入google月曆提醒我</a>
-                            </div>
-                            <div class="mb-3">
-                                <md-icon>person_pin</md-icon>
-                                <label class="mr-2">協作人員</label>
-                                <el-select style="width:300px"  v-model="member" multiple placeholder="請選擇">
-                                    <el-option v-for="m in members" :key="m" :label="m" :value="m">
-                                    </el-option>
-                                </el-select>
-                            </div>
-                            <div >
-                                <md-icon>motorcycle</md-icon>
-                                <label>完成進度百分比</label>
-                                <el-slider ></el-slider>
-                            </div>
-                            <div>
-                                    <el-form ref="form" label-width="80px">
-                                         
-                                            <el-form-item  label="KR1">
-                                                    <el-input  type="textarea" :rows="2" placeholder="請輸入具體、可衡量、好記憶的關鍵成果">
-                                                    </el-input>
-                                                    <el-row class="mt-2">
-                                                            <el-button class="mr-2" size="mini" style="float:left"  type="danger" icon="el-icon-s-help" round>要救援</el-button>
-                                                            <el-rate style="float:left" :show-text="true" :texts="['準備中','剛開始','進行中','快完成了','順利完成']"class="mt-1"  show-text>
-                                                            </el-rate>
-                                                    </el-row>
-                                                  
-                                                    
-                                                </el-form-item>
-                                           
-                                            <el-form-item  label="KR2">
-                                                <el-input  type="textarea" :rows="2" placeholder="請輸入具體、可衡量、好記憶的關鍵成果">
-                                                </el-input>
-                                                <el-row class="mt-2">
-                                                        <el-button class="mr-2" size="mini" style="float:left"  type="" icon="el-icon-s-help" round>要救援</el-button>
-                                                        <el-rate style="float:left" :show-text="true" :texts="['準備中','剛開始','進行中','快完成了','順利完成']"class="mt-1"  show-text>
-                                                        </el-rate>
-                                                </el-row>
-                                            </el-form-item>
-                                            <el-form-item label="KR3">
-                                                <el-input type="textarea" :rows="2" placeholder="請輸入具體、可衡量、好記憶的關鍵成果">
-                                                </el-input>
-                                                <el-rate :show-text="true" :texts="['準備中','剛開始','進行中','快完成了','順利完成']"class="mt-1"  show-text>
-                                                    </el-rate>
-                                            </el-form-item>
-                                            <el-form-item label="KR4">
-                                                <el-input type="textarea" :rows="2" placeholder="請輸入具體、可衡量、好記憶的關鍵成果">
-                                                </el-input>
-                                                <el-rate :show-text="true" :texts="['準備中','剛開始','進行中','快完成了','順利完成']"class="mt-1" show-text>
-                                                    </el-rate>
-                                            </el-form-item>
-                                        
-                                    </el-form>
-                            </div>
-                            
-                        </div>
-                        <div >
-                           
-                        </div>
-                    </el-card>
-              
-
+            <el-tab-pane id="0" class="reg-text" label="年度目標">
+                <v-okr :isdark="false" :members="members"></v-okr>
+                <v-okr :isdark="true" :members="members"></v-okr>
             </el-tab-pane>
-            <el-tab-pane id="1"  class="reg-text" label="Q1目標"></el-tab-pane>
-            <el-tab-pane id="2"  class="reg-text" label="Q2目標"></el-tab-pane>
-            <el-tab-pane id="3"  class="reg-text" label="Q3目標"></el-tab-pane>
-            <el-tab-pane id="4"  class="reg-text" label="Q4目標"></el-tab-pane>
-            <el-tab-pane id="５"  class="reg-text" label="本週目標"></el-tab-pane>
+            <el-tab-pane id="1" class="reg-text" label="Q1目標">
+            
+                <v-okr :isdark="true" :members="members"></v-okr>
+            </el-tab-pane>
+            <el-tab-pane id="2" class="reg-text" label="Q2目標">
+                <v-okr :isdark="false" :members="members"></v-okr>
+            </el-tab-pane>
+            <el-tab-pane id="3" class="reg-text" label="Q3目標">
+                <v-okr :isdark="false" :members="members"></v-okr>
+            </el-tab-pane>
+            <el-tab-pane id="4" class="reg-text" label="Q4目標">
+                <v-okr :isdark="false" :members="members"></v-okr>
+            </el-tab-pane>
+            <el-tab-pane id="５" class="reg-text" label="本週目標">
+                <v-okr :isdark="false" :members="members"></v-okr>
+            </el-tab-pane>
         </el-tabs>
       
     </el-col>
@@ -152,6 +102,7 @@
 {% endblock %} 
 
 {% block js %}
+<script src="/static/js/v-kr.js?20190428"></script>
 <script src="/static/js/v-okr.js?20190428"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>

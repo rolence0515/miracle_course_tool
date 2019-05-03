@@ -1,5 +1,5 @@
 /*************************************
-- 描述: 練習手冊元件
+- 描述: okr card
 - html:
        id:必填，元件id，要有唯一性
 - 屬性:
@@ -24,23 +24,58 @@
 
 Vue.component("v-okr", {
     template: `
-    <el-card shadow="never" style="height:150px">
-        <div class="mb-2 crop-text-2 reg-text">{{title}}</div>
-        <div class="">
-            <el-checkbox :value="chk" @change="oncheck_chage">完成</el-checkbox>
+    <!-- okr-card start -->
+    <el-card shadow="hover" class="mb-4" :class="{'dark':isdark}">
+        <div slot="header" style="" class="clearfix">
+            <span >OKR</span>
+            <el-button size="mini" style="float: right; padding: 3px 0" type="text">分享</el-button>
         </div>
-        <div> 
-            <el-button type="text" class="button" @click="oninfoclick">課程內容</el-button> 
-            <el-button v-show="!is_playmp3" type="text" class="button" @click="onmp3click">音頻播放</el-button> 
-            <el-button type="danger"  v-show="is_playmp3"  class="button" @click="onmp3stop">音頻停止<i class="el-icon-d-arrow-right el-icon--right"></i></el-button> 
+        <div  class="clearfix">
+            <md-field>
+                <!-- 目標 -->
+                <label>你的目標</label>
+                <md-input style="font-size:1.4em"></md-input>
+            </md-field>
+            <div class="mb-3">
+                <!-- 時間 -->
+                <md-icon>event</md-icon>
+                <label class="mr-2">截止時間</label>
+                <el-date-picker v-model="enddt" style="width:300px" class="mr-1" type="date" placeholder="選擇日期"></el-date-picker>
+                <a style="font-size:12px" href="http://www.google.com/calendar/event?action=TEMPLATE&text=查看CDP用戶有沒有增長&dates=20190515/20190516&details=做了行銷活動要查看用戶有沒有增長=>http://cdppj.eagleeye.com.tw:8888/report/rebuy&trp=false"
+                    target="_blank" rel="nofollow">加入google月曆提醒我</a>
+            </div>
+            <div class="mb-3">
+                <!-- 人員 -->
+                <md-icon>person_pin</md-icon>
+                <label class="mr-2">協作人員</label>
+                <el-select style="width:300px" v-model="member" multiple placeholder="請選擇">
+                    <el-option v-for="m in members" :key="m" :label="m" :value="m">
+                    </el-option>
+                </el-select>
+            </div>
+            <div>
+                <!-- 進度 -->
+                <md-icon>motorcycle</md-icon>
+                <label>完成進度百分比</label>
+                <el-slider v-model="complete"></el-slider>
+            </div>
+            <div>
+                <!-- krs -->
+                <el-form ref="form" label-width="80px">
+                    <v-kr :all_members="members"></v-kr>
+                </el-form>
+            </div>
+    
         </div>
     </el-card>
+    <!-- okr-card end -->
     `,
-    props:["id", "title", 'body', 'chk'],
+    props:["id", "isdark", 'members', 'chk'],
     data(){
         return {
-            is_playmp3:false
-            
+            member:[],
+            complete:10,
+            enddt:'2019-05-15'
         }
     },
     mounted() {
@@ -50,8 +85,6 @@ Vue.component("v-okr", {
         
     },
     methods:{
-        oninfoclick(){
-            this.$emit('oninfoclick','nothing'); 
-        },
+       
     }
  });
