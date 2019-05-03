@@ -33,6 +33,11 @@
         padding: 15px 20px !important;
     }
 
+    .el-input__inner{
+         /* 邊框變淡 */
+        border: 1px solid #e7e8ec!important;
+    }
+
     /* 暗色系 */
     .dark {
         border: 1px solid #303133!important;
@@ -79,26 +84,26 @@
         
         <el-tabs v-model="act_tab_name" @tab-click="on_tab_click" :tab-position="isMobile() ? 'top' : 'left'">
             <el-tab-pane id="0" class="reg-text" label="年度目標">
-                <v-okr :isdark="false" :members="members"></v-okr>
-                <v-okr :isdark="true" :members="members"></v-okr>
+                <v-okr :isdark="false" :o="50" :allmembers="all_members"></v-okr>
+                <v-okr :isdark="true" :allmembers="all_members"></v-okr>
             </el-tab-pane>
             <el-tab-pane id="1" class="reg-text" label="Q1目標">
-                <v-okr :isdark="true" :members="members"></v-okr>
+                <v-okr :isdark="true" :allmembers="all_members"></v-okr>
             </el-tab-pane>
             <el-tab-pane id="2" class="reg-text" label="Q2目標">
-                <v-okr :isdark="false" :members="members"></v-okr>
+                <v-okr :isdark="false" :allmembers="all_members"></v-okr>
             </el-tab-pane>
             <el-tab-pane id="3" class="reg-text" label="Q3目標">
-                <v-okr :isdark="false" :members="members"></v-okr>
+                <v-okr :isdark="false" :allmembers="all_members"></v-okr>
             </el-tab-pane>
             <el-tab-pane id="4" class="reg-text" label="Q4目標">
-                <v-okr :isdark="false" :members="members"></v-okr>
+                <v-okr :isdark="false" :allmembers="all_members"></v-okr>
             </el-tab-pane>
             <el-tab-pane id="５" class="reg-text" label="本月目標">
-                    <v-okr :isdark="false" :members="members"></v-okr>
+                    <v-okr :isdark="false" :allmembers="all_members"></v-okr>
                 </el-tab-pane>
             <el-tab-pane id="５" class="reg-text" label="本週目標">
-                <v-okr :isdark="false" :members="members"></v-okr>
+                <v-okr :isdark="false" :allmembers="all_members"></v-okr>
             </el-tab-pane>
         </el-tabs>
 
@@ -131,7 +136,7 @@
             ftr:'顯示全部',
             progs:9,
             act_tab_name:'',
-            members:['唐僧','悟空','八戒','沙僧'],
+            all_members:['唐僧','悟空','八戒','沙僧'],
             member:'悟空'
         },
         methods: {

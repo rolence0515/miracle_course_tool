@@ -28,7 +28,7 @@ Vue.component("v-okr", {
     <!-- okr-card start -->
     <el-card shadow="hover" class="mb-4" :class="{'dark':isdark}">
         <div slot="header" style="" class="clearfix">
-            <span >[[ isdark ? "與你分享的" : ""]] OKR</span>
+            <span >[[ isdark ? "你參與的" : ""]] OKR</span>
             <el-button v-show="!isdark" size="mini" style="float: right; padding: 3px 0" type="text">刪除 </el-button>  
             <el-button v-show="!isdark" class="mr-1" size="mini" style="float: right; padding: 3px 0" type="text">分享</el-button>
             
@@ -50,9 +50,9 @@ Vue.component("v-okr", {
             <div class="mb-3">
                 <!-- 人員 -->
                 <md-icon>person_pin</md-icon>
-                <label class="mr-2">協作人員</label>
-                <el-select style="width:300px" v-model="member" multiple placeholder="請選擇">
-                    <el-option v-for="m in members" :key="m" :label="m" :value="m">
+                <label class="mr-2">參與人員</label>
+                <el-select style="width:300px" v-model="members" multiple placeholder="請選擇">
+                    <el-option v-for="m in allmembers" :key="m" :label="m" :value="m">
                     </el-option>
                 </el-select>
             </div>
@@ -65,7 +65,7 @@ Vue.component("v-okr", {
             <div>
                 <!-- krs -->
                 <el-form ref="form" label-width="80px">
-                    <v-kr :all_members="members"></v-kr>
+                    <v-kr v-for="kr in krs" @kr_chnage="kr_chnage" @on_add="on_add_kr" @on_del="on_del_kr"  v-bind:key="kr.id" :kr="kr" :all_members="allmembers"></v-kr>
                 </el-form>
             </div>
     
@@ -73,13 +73,17 @@ Vue.component("v-okr", {
     </el-card>
     <!-- okr-card end -->
     `,
-    props:["id", "isdark", 'members', 'chk'],
+    props:["id", "isdark", 'allmembers', 'data'],
     data(){
         return {
-            member:[],
+            members:['唐僧'],
             complete:10,
             enddt:'2019-05-15',
-            o:""
+            o:"",
+            krs:[
+                { id:0, text:"生活更美好", ishelp:true, rate:1, members:['悟空'] },
+                { id:1, text:"生活更美好2", ishelp:false, rate:3, members:['八戒'] },
+            ]
         }
     },
     mounted() {
@@ -89,6 +93,34 @@ Vue.component("v-okr", {
         
     },
     methods:{
+        kr_chnage(changekr){
+            this.krs[changekr.id] = changekr;
+        },
+        on_del_kr(krid){
+            if(this.krs.length == 1){
+                this.$message({
+                type: 'warning',
+                message: '只剩下一筆KR了，不能刪除!'
+                });
+                return;
+            }
+            this.krs = _.filter(this.krs, function(kr){
+                return kr.id != krid;
+            })
+        },
+        on_add_kr() {
+            if(this.krs.length > 4){
+                this.$message({
+                type: 'warning',
+                message: '不能超過5個KR!'
+                });
+                return;
+            }
+            this.krs.push(
+                { id:this.krs.length, text:"", ishelp:false, rate:0, members:[] }
+            )
+
+        }
        
     }
  });
