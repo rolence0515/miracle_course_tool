@@ -7,7 +7,7 @@ body{
 }
 /* scroll內容區 */
 .md-app .md-content.md-theme-default.md-app-content{
-	background-color: #eee;
+	background-color: rgb(244, 244, 245);
 }
 /* ------------------material css cover------------------ */
 /* 全域 */

@@ -42,7 +42,10 @@
         color: white !important;
     }
     .dark .el-card__body {
-        background-color: #EBEEF5;
+        background-color: #EBEEF5  !important;
+    }
+    .dark .el-button{
+        color:white !important;
     }
 
 </style>
@@ -94,6 +97,9 @@
             <el-tab-pane id="4" class="reg-text" label="Q4目標">
                 <v-okr :isdark="false" :members="members"></v-okr>
             </el-tab-pane>
+            <el-tab-pane id="５" class="reg-text" label="本月目標">
+                    <v-okr :isdark="false" :members="members"></v-okr>
+                </el-tab-pane>
             <el-tab-pane id="５" class="reg-text" label="本週目標">
                 <v-okr :isdark="false" :members="members"></v-okr>
             </el-tab-pane>

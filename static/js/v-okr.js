@@ -29,7 +29,9 @@ Vue.component("v-okr", {
     <el-card shadow="hover" class="mb-4" :class="{'dark':isdark}">
         <div slot="header" style="" class="clearfix">
             <span >[[ isdark ? "與你分享的" : ""]] OKR</span>
-            <el-button size="mini" style="float: right; padding: 3px 0" type="text">分享</el-button>
+            <el-button v-show="!isdark" size="mini" style="float: right; padding: 3px 0" type="text">刪除 </el-button>  
+            <el-button v-show="!isdark" class="mr-1" size="mini" style="float: right; padding: 3px 0" type="text">分享</el-button>
+            
         </div>
         <div  class="clearfix">
             <md-field>
