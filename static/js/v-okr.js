@@ -26,7 +26,7 @@ Vue.component("v-okr", {
     delimiters: ['[[', ']]'],
     template: `
     <!-- okr-card start -->
-    <el-card :id="'okr_'+okr.id" shadow="hover" class="mb-4" :class="{'dark':okr.isdark}">
+    <el-card :id="'okr_'+okr.id" shadow="never" class="mb-4" :class="{'dark':okr.isdark}">
         <div slot="header" style="" class="clearfix">
             <span >[[ okr.isdark ? "你參與的" : ""]] OKR</span>
             <el-button @click="click_del" v-show="!okr.isdark" size="mini" style="float: right; margin: 3px 2px;padding:4px 6px" >刪除 </el-button>  
