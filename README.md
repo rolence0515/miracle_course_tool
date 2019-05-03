@@ -31,4 +31,6 @@ $ git add .
 $ git commit -m "Initialize Project"
 $ git remote add origin https://github.com/rolence0515/miracle_course_tool.git
 
-larry in 20190419
+
+# 產生icon
+https://favicon.io/favicon-generator/

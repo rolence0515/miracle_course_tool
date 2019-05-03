@@ -26,10 +26,10 @@ Vue.component("v-okr", {
     delimiters: ['[[', ']]'],
     template: `
     <!-- okr-card start -->
-    <el-card shadow="hover" class="mb-4" :class="{'dark':isdark}">
+    <el-card :id="'okr_'+okr.id" shadow="hover" class="mb-4" :class="{'dark':okr.isdark}">
         <div slot="header" style="" class="clearfix">
-            <span >[[ isdark ? "你參與的" : ""]] OKR</span>
-            <el-button v-show="!isdark" size="mini" style="float: right; margin: 3px 2px;padding:4px 6px" >刪除 </el-button>  
+            <span >[[ okr.isdark ? "你參與的" : ""]] OKR</span>
+            <el-button @click="click_del" v-show="!okr.isdark" size="mini" style="float: right; margin: 3px 2px;padding:4px 6px" >刪除 </el-button>  
             <div style="float: right; margin: 2px">
             <div class="line-it-button" data-lang="zh_Hant" data-type="share-a" data-ver="3" data-url="https://okrcompanytool.herokuapp.com/" data-color="grey" data-size="small" data-count="false" style="display: none;"></div>
             </div>
@@ -38,21 +38,22 @@ Vue.component("v-okr", {
             <md-field>
                 <!-- 目標 -->
                 <label>你的目標</label>
-                <md-input v-model="o" style="font-size:1.4em"></md-input>
+                <md-input v-model="okr.o" style="font-size:1.4em"></md-input>
             </md-field>
             <div class="mb-3">
                 <!-- 時間 -->
                 <md-icon>event</md-icon>
                 <label class="mr-2">截止時間</label>
-                <el-date-picker v-model="enddt" style="width:300px" class="mr-1" type="date" placeholder="選擇日期"></el-date-picker>
-                <a style="font-size:12px" href="http://www.google.com/calendar/event?action=TEMPLATE&text=查看CDP用戶有沒有增長&dates=20190515/20190516&details=做了行銷活動要查看用戶有沒有增長=>http://cdppj.eagleeye.com.tw:8888/report/rebuy&trp=false"
+                <el-date-picker v-model="okr.enddt" style="width:300px" class="mr-1" type="date" placeholder="選擇日期"></el-date-picker>
+                <a style="font-size:12px" 
+                    :href="get_event_url()"
                     target="_blank" rel="nofollow">加入google月曆提醒我</a>
             </div>
             <div class="mb-3">
                 <!-- 人員 -->
                 <md-icon>person_pin</md-icon>
                 <label class="mr-2">參與人員</label>
-                <el-select style="width:300px" v-model="members" multiple placeholder="請選擇">
+                <el-select style="width:300px" v-model="okr.members" multiple placeholder="請選擇">
                     <el-option v-for="m in allmembers" :key="m" :label="m" :value="m">
                     </el-option>
                 </el-select>
@@ -61,12 +62,12 @@ Vue.component("v-okr", {
                 <!-- 進度 -->
                 <md-icon>motorcycle</md-icon>
                 <label>完成進度百分比</label>
-                <el-slider v-model="complete"></el-slider>
+                <el-slider v-model="okr.complete"></el-slider>
             </div>
             <div>
                 <!-- krs -->
                 <el-form ref="form" label-width="80px">
-                    <v-kr v-for="kr in krs" @kr_chnage="kr_chnage" @on_add="on_add_kr" @on_del="on_del_kr"  v-bind:key="kr.id" :kr="kr" :all_members="allmembers"></v-kr>
+                    <v-kr v-for="kr in okr.krs" @kr_chnage="kr_chnage" @on_add="on_add_kr" @on_del="on_del_kr"  v-bind:key="kr.id" :kr="kr" :all_members="allmembers"></v-kr>
                 </el-form>
             </div>
     
@@ -74,53 +75,89 @@ Vue.component("v-okr", {
     </el-card>
     <!-- okr-card end -->
     `,
-    props:["id", "isdark", 'allmembers', 'data'],
+    props:
+    //["id", "isdark", 'allmembers', 'data'],
+    {
+        allmembers:{type:Array, default:[]},
+        okr:{
+            type:Object, default: function () {
+                return {
+                    id:-1,
+                    isdark:false,
+                    members: [],
+                    complete: 10,
+                    enddt: '2019-05-15',
+                    o: "",
+                    krs: [
+                        { id: 0, text: "你與目標的距離就只剩下三百六十五天", ishelp: false, rate: 3, members: ['八戒'] },
+                    ]
+                };
+            }
+        }
+    },
     data(){
         return {
-            members:['唐僧'],
-            complete:10,
-            enddt:'2019-05-15',
-            o:"去西天取經",
-            krs:[
-                { id:0, text:"三月一號穿越白虎嶺，不要被白骨精捉去了", ishelp:true, rate:1, members:['悟空'] },
-                { id:1, text:"你與目標的距離就只剩下三百六十五天", ishelp:false, rate:3, members:['八戒'] },
-            ]
+           
         }
     },
     mounted() {
         
     },
     watch: {
-        
+        'okr.members': function () {
+            this.$emit("okr_chnage", this.okr)
+        },
+        'okr.complete': function () {
+            this.$emit("okr_chnage", this.okr)
+        },
+        'okr.enddt': function () {
+            this.$emit("okr_chnage", this.okr)
+        },
+        'okr.o': function () {
+            this.$emit("okr_chnage", this.okr)
+        },
     },
     methods:{
+        click_del(){
+            this.$emit("okr_del", this.okr.id)
+        },
+        get_event_url(){
+            var url = 'http://www.google.com/calendar/event?action=TEMPLATE'
+            url += '&text='+ this.o;
+            url += '&dates=' + this.okr.enddt.replace(/-/g,"") + '/'  + this.okr.enddt.replace(/-/g,"");
+            url += '&details=' + '定期檢查目標'
+            url += '&trp=false'
+            return url; 
+        },
         kr_chnage(changekr){
-            this.krs[changekr.id] = changekr;
+            this.okr.krs[changekr.id] = changekr;
+            this.$emit("okr_chnage", this.okr)
         },
         on_del_kr(krid){
-            if(this.krs.length == 1){
+            if(this.okr.krs.length == 1){
                 this.$message({
                 type: 'warning',
                 message: '只剩下一筆KR了，不能刪除!'
                 });
                 return;
             }
-            this.krs = _.filter(this.krs, function(kr){
+            this.okr.krs = _.filter(this.okr.krs, function(kr){
                 return kr.id != krid;
             })
+            this.$emit("okr_chnage", this.okr)
         },
         on_add_kr() {
-            if(this.krs.length > 4){
+            if(this.okr.krs.length > 4){
                 this.$message({
                 type: 'warning',
                 message: '不能超過5個KR!'
                 });
                 return;
             }
-            this.krs.push(
+            this.okr.krs.push(
                 { id:this.krs.length, text:"", ishelp:false, rate:0, members:[] }
             )
-
+            this.$emit("okr_chnage", this.okr)
         }
        
     }

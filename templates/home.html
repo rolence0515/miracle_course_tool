@@ -64,7 +64,7 @@
 <el-row class="mb-3" type="flex" justify="end">
         <el-col :span="24">
     
-            <el-button type="primary" size="small" icon="el-icon-circle-plus" style="float: right;">新建OKR</el-button>
+            <el-button @click="add_okr" type="primary" size="small" icon="el-icon-circle-plus" style="float: right;">新建OKR</el-button>
             <el-select size="small" class="mr-1" style="float:right" v-model="ftr" @change="on_ftr_change" placeholder="過濾">
                 <el-option label="顯示全部" value="顯示全部">
                 </el-option>
@@ -74,7 +74,7 @@
                 </el-option>
                 <el-option label="顯示私人的" value="顯示私人的">
                 </el-option>
-                <el-option label="顯示與我分享的" value="顯示與我分享的">
+                <el-option label="顯示我參與的" value="顯示我參與的">
                 </el-option>
             </el-select>
         </el-col>
@@ -84,26 +84,25 @@
         
         <el-tabs v-model="act_tab_name" @tab-click="on_tab_click" :tab-position="isMobile() ? 'top' : 'left'">
             <el-tab-pane id="0" class="reg-text" label="年度目標">
-                <v-okr :isdark="false" :o="50" :allmembers="all_members"></v-okr>
-                <v-okr :isdark="true" :allmembers="all_members"></v-okr>
+                <v-okr v-bind:key="okr.id" v-for="okr in okrs" :okr="okr" :allmembers="all_members"></v-okr>
             </el-tab-pane>
             <el-tab-pane id="1" class="reg-text" label="Q1目標">
-                <v-okr :isdark="true" :allmembers="all_members"></v-okr>
+                <v-okr v-bind:key="okr.id" v-for="okr in okrs" :okr="okr" :allmembers="all_members"></v-okr>
             </el-tab-pane>
             <el-tab-pane id="2" class="reg-text" label="Q2目標">
-                <v-okr :isdark="false" :allmembers="all_members"></v-okr>
+        
             </el-tab-pane>
             <el-tab-pane id="3" class="reg-text" label="Q3目標">
-                <v-okr :isdark="false" :allmembers="all_members"></v-okr>
+        
             </el-tab-pane>
             <el-tab-pane id="4" class="reg-text" label="Q4目標">
-                <v-okr :isdark="false" :allmembers="all_members"></v-okr>
+        
             </el-tab-pane>
             <el-tab-pane id="５" class="reg-text" label="本月目標">
-                    <v-okr :isdark="false" :allmembers="all_members"></v-okr>
-                </el-tab-pane>
+        
+            </el-tab-pane>
             <el-tab-pane id="５" class="reg-text" label="本週目標">
-                <v-okr :isdark="false" :allmembers="all_members"></v-okr>
+        
             </el-tab-pane>
         </el-tabs>
 
@@ -133,17 +132,60 @@
         mixins: [layoutVue,mixindetictingmobile,mixinLocalStorge],//layout 資料
         breadpath: [{ key: '首頁', path: '' }],//面包序
         data: {
-            okrs:[],
+            okrs:[{
+                    id:0,
+                    isdark:false,
+                    members: [],
+                    complete: 2,
+                    enddt: '2019-05-15',
+                    o: "目標0",
+                    krs: [
+                        { id: 0, text: "", ishelp: false, rate: 3, members: [] },
+                    ]
+                },
+                {
+                    id:1,
+                    isdark:true,
+                    members: [],
+                    complete: 2,
+                    enddt: '2019-05-16',
+                    o: "目標1",
+                    krs: [
+                        { id: 0, text: "", ishelp: false, rate: 3, members: [] },
+                    ]
+                },
+            ],
             ftr:'顯示全部',
             progs:9,
             act_tab_name:'',
             all_members:['唐僧','悟空','八戒','沙僧'],
-            member:'悟空'
         },
         methods: {
-           
-            on_ftr_change(){
+          
+            add_okr(){
+                okrid = this.okrs.length;
+                this.okrs.unshift({
+                    id:okrid,
+                    isdark:false,
+                    members: [],
+                    complete: 2,
+                    enddt: '2019-05-15',
+                    o: "",
+                    krs: [
+                        { id: 0, text: "", ishelp: false, rate: 0, members: [''] },
+                    ]
+                })
 
+                setTimeout( ()=> {
+                    var element = document.querySelector('#okr_' + okrid)
+                    element.classList.remove('animated', 'bounceIn' ,'fast')
+                    element.classList.add('animated', 'bounceIn', 'fast')
+                }, 400);
+                
+                
+            },
+            on_ftr_change(){
+              
             },
             on_tab_click(){
 
