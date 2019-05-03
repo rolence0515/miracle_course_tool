@@ -29,9 +29,10 @@ Vue.component("v-okr", {
     <el-card shadow="hover" class="mb-4" :class="{'dark':isdark}">
         <div slot="header" style="" class="clearfix">
             <span >[[ isdark ? "你參與的" : ""]] OKR</span>
-            <el-button v-show="!isdark" size="mini" style="float: right; padding: 3px 0" type="text">刪除 </el-button>  
-            <el-button v-show="!isdark" class="mr-1" size="mini" style="float: right; padding: 3px 0" type="text">分享</el-button>
-            
+            <el-button v-show="!isdark" size="mini" style="float: right; margin: 3px 2px;padding:4px 6px" >刪除 </el-button>  
+            <div style="float: right; margin: 2px">
+            <div class="line-it-button" data-lang="zh_Hant" data-type="share-a" data-ver="3" data-url="https://okrcompanytool.herokuapp.com/" data-color="grey" data-size="small" data-count="false" style="display: none;"></div>
+            </div>
         </div>
         <div  class="clearfix">
             <md-field>
@@ -79,10 +80,10 @@ Vue.component("v-okr", {
             members:['唐僧'],
             complete:10,
             enddt:'2019-05-15',
-            o:"",
+            o:"去西天取經",
             krs:[
-                { id:0, text:"生活更美好", ishelp:true, rate:1, members:['悟空'] },
-                { id:1, text:"生活更美好2", ishelp:false, rate:3, members:['八戒'] },
+                { id:0, text:"三月一號穿越白虎嶺，不要被白骨精捉去了", ishelp:true, rate:1, members:['悟空'] },
+                { id:1, text:"你與目標的距離就只剩下三百六十五天", ishelp:false, rate:3, members:['八戒'] },
             ]
         }
     },
