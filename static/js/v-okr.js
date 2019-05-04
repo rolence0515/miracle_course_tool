@@ -59,7 +59,7 @@ Vue.component("v-okr", {
                     <el-option v-for="m in allmembers" :key="m" :label="m" :value="m">
                     </el-option>
                 </el-select>
-                <a style="font-size:12px" :href="get_gmail_url()" target="_blank" rel="nofollow">傳送gmail</a>
+                <a v-show="!isMobile()" style="font-size:12px" :href="get_gmail_url()" target="_blank" rel="nofollow">傳送gmail</a>
             </div>
             <div>
                 <!-- 進度 -->
