@@ -6,7 +6,7 @@
 </style>
 {% endblock %}
  {% block content %}
-<h3 class="mb-3">OKR企業目標管理工具</h3>
+<h3 class="mb-3">[[comp]]企業OKR管理工具</h3>
 
 <el-row class="mb-3">
     <el-col :span="24">
@@ -85,15 +85,16 @@
         mixins: [layoutVue,mixindetictingmobile,mixinLocalStorge],//layout 資料
         breadpath: [{ key: '首頁', path: '' }],//面包序
         data: {
+            comp:"蜀漢",
             okrs:[{
                     id:0,
                     isdark:false,
-                    members: [],
+                    members: ['諸葛亮','馬謖'],
                     complete: 2,
                     enddt: Date.now(),
-                    o: "目標0",
+                    o: "蜀國北伐大業",
                     krs: [
-                        { id: 0, text: "", ishelp: false, rate: 3, members: [] },
+                        { id: 0, text: '跟據軍師佈陣圖，守住街亭, 蜀國大軍糧草的重要據點', ishelp: false, rate: 3, members: ["馬謖"] },
                     ]
                 },
                 {
@@ -104,14 +105,14 @@
                     enddt: Date.now(),
                     o: "目標1",
                     krs: [
-                        { id: 0, text: "", ishelp: false, rate: 3, members: [] },
+                        { id: 0, text: null, ishelp: false, rate: 3, members: [] },
                     ]
                 },
             ],
             ftr:'顯示全部',
             progs:9,
             act_tab_name:'',
-            all_members:['唐僧','悟空','八戒','沙僧'],
+            all_members:['劉備','關公','張飛','諸葛亮','馬謖'],
         },
         methods: {
             okr_animate_bouncein(okrid){
