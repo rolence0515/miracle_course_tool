@@ -31,7 +31,7 @@ Vue.component("v-okr", {
     <el-card :id="'okr_'+okr.id" shadow="never" class="mb-4" :class="{'dark':okr.isdark}">
         <div slot="header" style="" class="clearfix">
             <span >[[ !okr.isdark ? "你參與的" : ""]] OKR</span>
-            <el-button @click="click_del" v-show="!okr.isdark" size="mini" style="float: right; margin: 3px 2px;padding:4px 6px" >刪除 </el-button>  
+            <el-button @click="click_del" v-show="okr.isdark" size="mini" style="float: right; margin: 3px 2px;padding:4px 6px" >刪除 </el-button>  
             <div style="float: right; margin: 2px">
             <div class="line-it-button" data-lang="zh_Hant" data-type="share-a" data-ver="3" data-url="https://okrcompanytool.herokuapp.com/" data-color="grey" data-size="small" data-count="false" style="display: none;"></div>
             </div>
@@ -126,6 +126,7 @@ Vue.component("v-okr", {
             var text = "O:" + this.okr.o + "(" + this.dt_2_str_dash(this.okr.enddt)  + ")%0A" + (_.map(this.okr.krs, (kr)=>{
                 return "- KR:" + kr.text  + "=>" + ( kr.members.join(",")) + "%0A"
             }).join(''))
+            text += ""
             return text;
         },
 

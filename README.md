@@ -34,3 +34,23 @@ $ git remote add origin https://github.com/rolence0515/miracle_course_tool.git
 
 # 產生icon
 https://favicon.io/favicon-generator/
+
+# area, 組織結構
+1企業 包含多個 團隊 
+一個團隊包含1或多個管員理
+一個團隊包含0或多個成員
+
+#人
+1個人可以見到多個okr, 滿足以下即可見
+1，okr是你建的
+4. 企業area okr
+2，ork參與人有你
+3．你是團隊成員
+
+
+1個人一定在一個企業，但不一定屬於任何團隊
+
+#okr
+屬於一個建立者
+對另一個人而言，分為可見或不可見
+

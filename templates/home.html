@@ -90,7 +90,7 @@
             comp:"蜀漢",
             okrs:[{
                     id:0,
-                    isdark:false,
+                    isdark:true,
                     members: ['諸葛亮','馬謖'],
                     complete: 10,
                     enddt: Date.now(),
@@ -101,7 +101,7 @@
                 },
                 {
                     id:1,
-                    isdark:true,
+                    isdark:false,
                     members: [],
                     complete: 10,
                     enddt: Date.now(),
@@ -131,10 +131,18 @@
             },
 
             add_okr(){
+                if(this.okrs.length > 4){
+                    this.$message({
+                    type: 'warning',
+                    message: '不能超過5個OKR!'
+                    });
+                    return;
+                }
+                
                 okrid = this.okrs.length;
                 this.okrs.unshift({
                     id:okrid,
-                    isdark:false,
+                    isdark:true,
                     members: [],
                     complete: 2,
                     enddt: Date.now(),
@@ -154,7 +162,6 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-
                     this.okr_animate_bounceout(okrid, ()=> {
                         app.okrs = _.filter(app.okrs, (okr) => {
                             return okr.id != okrid;
