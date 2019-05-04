@@ -3,15 +3,16 @@
 - html:
        id:必填，元件id，要有唯一性
 - 屬性:
+    @ okr :okr 物件
 
 - 事件：
-    　oninfoclick
+    okr_chnage 修改
+    okr_del : 使用者點擊刪除okr
+    del_kr 刪除某kr
+    add_kr 新增某kr
         
 - 依賴:
-       vue element
-       vue materaial
-       v-multiselect元件
-
+       mixin_date
 - 作者:
        Rolence
 - 使用範例:
@@ -23,12 +24,13 @@
 *************************************/
 
 Vue.component("v-okr", {
+    mixins:[mixindate],
     delimiters: ['[[', ']]'],
     template: `
     <!-- okr-card start -->
     <el-card :id="'okr_'+okr.id" shadow="never" class="mb-4" :class="{'dark':okr.isdark}">
         <div slot="header" style="" class="clearfix">
-            <span >[[ okr.isdark ? "你參與的" : ""]] OKR</span>
+            <span >[[ !okr.isdark ? "你參與的" : ""]] OKR</span>
             <el-button @click="click_del" v-show="!okr.isdark" size="mini" style="float: right; margin: 3px 2px;padding:4px 6px" >刪除 </el-button>  
             <div style="float: right; margin: 2px">
             <div class="line-it-button" data-lang="zh_Hant" data-type="share-a" data-ver="3" data-url="https://okrcompanytool.herokuapp.com/" data-color="grey" data-size="small" data-count="false" style="display: none;"></div>
@@ -67,7 +69,7 @@ Vue.component("v-okr", {
             <div>
                 <!-- krs -->
                 <el-form ref="form" label-width="80px">
-                    <v-kr v-for="kr in okr.krs" @kr_chnage="kr_chnage" @on_add="on_add_kr" @on_del="on_del_kr"  v-bind:key="kr.id" :kr="kr" :all_members="allmembers"></v-kr>
+                    <v-kr v-for="kr in okr.krs" @kr_chnage="kr_chnage" @on_add="add_kr" @on_del="del_kr"  v-bind:key="kr.id" :kr="kr" :all_members="allmembers"></v-kr>
                 </el-form>
             </div>
     
@@ -80,13 +82,14 @@ Vue.component("v-okr", {
     {
         allmembers:{type:Array, default:[]},
         okr:{
-            type:Object, default: function () {
+            type:Object, 
+            default: function () {
                 return {
                     id:-1,
                     isdark:false,
                     members: [],
                     complete: 10,
-                    enddt: '2019-05-15',
+                    enddt: Date.now(),
                     o: "",
                     krs: [
                         { id: 0, text: "你與目標的距離就只剩下三百六十五天", ishelp: false, rate: 3, members: ['八戒'] },
@@ -118,14 +121,19 @@ Vue.component("v-okr", {
         },
     },
     methods:{
-        click_del(){
-            this.$emit("okr_del", this.okr.id)
+        get_google_cld_text(){
+            var text = this.okr.o + this.dt_2_str_dash(this.okr.enddt) + (_.map(this.okr.krs, (kr)=>{
+                return kr.text
+            }).join("-"))
+            return text;
         },
+        
         get_event_url(){
             var url = 'http://www.google.com/calendar/event?action=TEMPLATE'
-            url += '&text='+ this.o;
-            url += '&dates=' + this.okr.enddt.replace(/-/g,"") + '/'  + this.okr.enddt.replace(/-/g,"");
-            url += '&details=' + '定期檢查目標'
+            url += '&text='+ this.okr.o;
+            url += '&dates=' + this.dt_2_str_dash(this.okr.enddt).replace(/-/g,"") + '/'  + 
+                this.dt_2_str_dash(this.dt_sub_day(this.okr.enddt,1)).replace(/-/g,"");
+            url += '&details=' + this.get_google_cld_text()
             url += '&trp=false'
             return url; 
         },
@@ -133,7 +141,12 @@ Vue.component("v-okr", {
             this.okr.krs[changekr.id] = changekr;
             this.$emit("okr_chnage", this.okr)
         },
-        on_del_kr(krid){
+        //==============以下為觸發事件================
+        click_del(){
+            this.$emit("okr_del", this.okr.id)
+        },
+
+        del_kr(krid){
             if(this.okr.krs.length == 1){
                 this.$message({
                 type: 'warning',
@@ -146,7 +159,7 @@ Vue.component("v-okr", {
             })
             this.$emit("okr_chnage", this.okr)
         },
-        on_add_kr() {
+        add_kr() {
             if(this.okr.krs.length > 4){
                 this.$message({
                 type: 'warning',
@@ -155,7 +168,7 @@ Vue.component("v-okr", {
                 return;
             }
             this.okr.krs.push(
-                { id:this.krs.length, text:"", ishelp:false, rate:0, members:[] }
+                { id:this.okr.krs.length, text:"", ishelp:false, rate:0, members:[] }
             )
             this.$emit("okr_chnage", this.okr)
         }

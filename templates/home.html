@@ -1,56 +1,6 @@
 {% extends "layout.html" %} {% block title %}OKRER{% endblock %} {% block head %}
 <style type="text/css">
-    .crop-text-2 {
-        /*兩行點點點*/
-        -webkit-line-clamp: 2;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-    }
-
-    h1,.prm-text {
-        color: #303133
-    }
-
-    .reg-text {
-        color: #606266
-    }
-    .el-tabs__item{
-        -webkit-transition: all .5s ease;
-        -moz-transition: all .5s ease;
-        transition: all .5s ease;
-    }
-    .el-tabs__item.is-active{
-        font-size: 2em;
-       
-    }
-    /* 卡片高度修正 */
-    .el-card__header{
-        padding:10px 20px !important
-    }
-    .el-card__body {
-        padding: 15px 20px !important;
-    }
-
-    .el-input__inner{
-         /* 邊框變淡 */
-        border: 1px solid #e7e8ec!important;
-    }
-    .el-card{
-        border: 1px solid #DCDFE6!important;
-    }
-    /* 暗色系 */
-    .dark {
-        border: 1px solid #303133!important;
-    }
-    .dark .el-card__header{
-        background-color: #909399 !important;
-        color: white !important;
-    }
-    .dark .el-card__body {
-        background-color: #EBEEF5  !important;
-    }
+   
 
 
 </style>
@@ -86,7 +36,7 @@
         
         <el-tabs v-model="act_tab_name" @tab-click="on_tab_click" :tab-position="isMobile() ? 'top' : 'left'">
             <el-tab-pane id="0" class="reg-text" label="年度目標">
-                <v-okr v-bind:key="okr.id" v-for="okr in okrs" :okr="okr" :allmembers="all_members"></v-okr>
+                <v-okr @okr_del="on_okr_del" v-bind:key="okr.id" v-for="okr in okrs" :okr="okr" :allmembers="all_members"></v-okr>
             </el-tab-pane>
             <el-tab-pane id="1" class="reg-text" label="Q1目標">
                 <v-okr v-bind:key="okr.id" v-for="okr in okrs" :okr="okr" :allmembers="all_members"></v-okr>
@@ -116,13 +66,14 @@
 {% endblock %} 
 
 {% block js %}
+<script src="/static/js/minxin_is_mobile.js"></script>
+<script src="/static/js/mixin_localstroage.js"></script>
+<script src="/static/js/mixin_date.js"></script>
 <script src="/static/js/v-kr.js?201905032"></script>
 <script src="/static/js/v-okr.js?201905032"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js"></script>
-<script src="/static/js/minxin_is_mobile.js"></script>
-<script src="/static/js/mixin_localstroage.js"></script>
 <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
 <script>
 </script>
@@ -139,7 +90,7 @@
                     isdark:false,
                     members: [],
                     complete: 2,
-                    enddt: '2019-05-15',
+                    enddt: Date.now(),
                     o: "目標0",
                     krs: [
                         { id: 0, text: "", ishelp: false, rate: 3, members: [] },
@@ -150,7 +101,7 @@
                     isdark:true,
                     members: [],
                     complete: 2,
-                    enddt: '2019-05-16',
+                    enddt: Date.now(),
                     o: "目標1",
                     krs: [
                         { id: 0, text: "", ishelp: false, rate: 3, members: [] },
@@ -171,21 +122,45 @@
                     isdark:false,
                     members: [],
                     complete: 2,
-                    enddt: '2019-05-15',
+                    enddt: Date.now(),
                     o: "",
                     krs: [
-                        { id: 0, text: "", ishelp: false, rate: 0, members: [''] },
+                        { id: 0, text: "", ishelp: false, rate: 0, members: [] },
                     ]
                 })
 
                 setTimeout( ()=> {
+                    //停四百毫秒後做效果
                     var element = document.querySelector('#okr_' + okrid)
                     element.classList.remove('animated', 'bounceIn' ,'fast')
                     element.classList.add('animated', 'bounceIn', 'fast')
+                    LineIt.loadButton();
                 }, 400);
                 
                 
             },
+
+            on_okr_del(okrid){
+                this.$confirm('此操作將永遠刪除OKR, 是否確定？', '提示', {
+                    confirmButtonText: '確定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    app.okrs = _.filter(app.okrs, (okr) => {
+                        return okr.id != okrid;
+                    })
+                    app.$message({
+                        type: 'success',
+                        message: '刪除成功!'
+                    });
+                }).catch(() => {
+                    app.$message({
+                        type: 'info',
+                        message: '已取消刪除'
+                    });
+                });
+            },
+
             on_ftr_change(){
               
             },

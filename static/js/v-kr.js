@@ -30,12 +30,15 @@ Vue.component("v-kr", {
     </el-input>
     <el-row class="mt-2">
         <el-col :xs="24" :sm="24" :md="20" :lg="20" :xl="20">
+
                 <el-button @click="kr.ishelp = !kr.ishelp" class="mr-2 mt-1" size="mini" style="float:left;margin-top: 6px;" :type="kr.ishelp ? 'danger' :''"
                     icon="el-icon-s-help" round>要救援</el-button>
-                <el-select v-model="kr.members" class="mr-2" size="mini" style="float:left" multiple placeholder="負責人">
+
+                <el-select multiple collapse-tags v-model="kr.members" class="mr-2" size="mini" style="float:left;" multiple placeholder="負責人">
                     <el-option v-for="m in all_members" :key="m" :label="m" :value="m">
                     </el-option>
                 </el-select>
+
                 <el-rate v-model="kr.rate" class="mt-2" style="float:left" :show-text="true" :texts="['準備中','剛開始','進行中','快完成了','順利完成']" show-text>
                 </el-rate>
         </el-col>

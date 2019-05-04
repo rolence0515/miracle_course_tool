@@ -18,3 +18,55 @@ html.md-theme-default{
 	background-color: #F2F6FC !important;
 	color: #555 !important;
 }
+/* ------------------rolence add ----------------------*/
+.crop-text-2 {
+	/*兩行點點點*/
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+h1,.prm-text {
+	color: #303133
+}
+
+.reg-text {
+	color: #606266
+}
+.el-tabs__item{
+	-webkit-transition: all .5s ease;
+	-moz-transition: all .5s ease;
+	transition: all .5s ease;
+}
+.el-tabs__item.is-active{
+	font-size: 2em;
+   
+}
+/* 卡片高度修正 */
+.el-card__header{
+	padding:10px 20px !important
+}
+.el-card__body {
+	padding: 15px 20px !important;
+}
+
+.el-input__inner{
+	 /* 邊框變淡 */
+	border: 1px solid #e7e8ec!important;
+}
+.el-card{
+	border: 1px solid #DCDFE6!important;
+}
+/* 暗色系 */
+.dark {
+	border: 1px solid #303133!important;
+}
+.dark .el-card__header{
+	background-color: #909399 !important;
+	color: white !important;
+}
+.dark .el-card__body {
+	background-color: #EBEEF5  !important;
+}
