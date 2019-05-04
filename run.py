@@ -24,10 +24,13 @@ session = {
 
 # mongo_uri = "mongodb://rolence0515:rolence0515@ds143342.mlab.com:43342/miraclecoursetooldb"
 
-
 @app.route("/")
 def home():
-    return render_template('home.html')
+    return render_template('home.html',okrid = "")
+
+@app.route("/<int:okrid>")
+def home_scroll_okr(okrid = ""):
+    return render_template('home.html',okrid = okrid)
 
 @app.route("/about")
 def about():

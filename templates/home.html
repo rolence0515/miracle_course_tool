@@ -71,10 +71,12 @@
 <script src="/static/js/mixin_date.js"></script>
 <script src="/static/js/v-kr.js?201905052"></script>
 <script src="/static/js/v-okr.js?201905052"></script>
+<script src="/static/js/mixin_animate.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js"></script>
 <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+<script src="https://unpkg.com/vue-router"></script>
 <script>
 </script>
 <script>
@@ -82,7 +84,7 @@
     var app = new Vue({
         delimiters: ['[[', ']]'],
         el: '#layout',
-        mixins: [layoutVue,mixindetictingmobile,mixinLocalStorge],//layout 資料
+        mixins: [layoutVue,mixindetictingmobile,mixinLocalStorge,mixinanimate],//layout 資料
         breadpath: [{ key: '首頁', path: '' }],//面包序
         data: {
             comp:"蜀漢",
@@ -90,7 +92,7 @@
                     id:0,
                     isdark:false,
                     members: ['諸葛亮','馬謖'],
-                    complete: 2,
+                    complete: 10,
                     enddt: Date.now(),
                     o: "蜀國北伐大業",
                     krs: [
@@ -101,7 +103,7 @@
                     id:1,
                     isdark:true,
                     members: [],
-                    complete: 2,
+                    complete: 10,
                     enddt: Date.now(),
                     o: "目標1",
                     krs: [
@@ -116,22 +118,18 @@
         },
         methods: {
             okr_animate_bouncein(okrid){
-                setTimeout( ()=> {
-                    //停四百毫秒後做效果
-                    var element = document.querySelector('#okr_' + okrid)
-                    element.classList.remove('animated', 'bounceIn' ,'fast')
-                    element.classList.add('animated', 'bounceIn', 'fast')
-                    LineIt.loadButton();
-                }, 400);
+                this.bouncein('#okr_' + okrid);
+
             },
             okr_animate_bounceout(okrid, thenfunc){
-                var element = document.querySelector('#okr_' + okrid)
-                    element.classList.remove('animated', 'bounceOutLeft' ,'fast')
-                    element.classList.add('animated', 'bounceOutLeft', 'fast')
-                    LineIt.loadButton();
-                setTimeout(thenfunc, 600);
+                this.bounceout('#okr_' + okrid, thenfunc);
             },
-          
+
+            scroll_to_card(okrid){
+                var okrelmid = 'okr_' + okrid;
+                document.getElementById(okrelmid).scrollIntoView()
+            },
+
             add_okr(){
                 okrid = this.okrs.length;
                 this.okrs.unshift({
@@ -186,6 +184,12 @@
         },
         mounted:function () {
             this.init_ls("home", ['ftr','act_tab_name'])
+            this.$nextTick(function () {
+                if('{{okrid}}' != ""){
+                    this.scroll_to_card('{{okrid}}')
+                }
+            })
+           
         }
 });
 

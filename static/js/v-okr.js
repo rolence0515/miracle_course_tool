@@ -65,7 +65,7 @@ Vue.component("v-okr", {
                 <!-- 進度 -->
                 <md-icon>motorcycle</md-icon>
                 <label>完成進度百分比</label>
-                <el-slider v-model="okr.complete"></el-slider>
+                <el-slider :step="10" show-stops v-model="okr.complete"></el-slider>
             </div>
             <div>
                 <!-- krs -->
