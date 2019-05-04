@@ -120,7 +120,7 @@
 
             <md-app-content>
                 <el-breadcrumb separator-class="el-icon-arrow-right">
-                    <el-breadcrumb-item v-for="bp in breadpath">
+                    <el-breadcrumb-item v-for="bp in breadpath" v-bind:key="bp.key">
                         <a v-text="bp.key" :href="bp.path" v-if="bp.path.length > 0"> </a>
                         <a v-text="bp.key" v-else></a>
                     </el-breadcrumb-item>
