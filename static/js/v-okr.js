@@ -24,7 +24,7 @@
 *************************************/
 
 Vue.component("v-okr", {
-    mixins:[mixindate],
+    mixins:[mixindate,mixindetictingmobile],
     delimiters: ['[[', ']]'],
     template: `
     <!-- okr-card start -->
