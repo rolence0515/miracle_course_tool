@@ -33,7 +33,7 @@ Vue.component("v-okr", {
             <span >[[ !okr.isdark ? "你參與的" : ""]] OKR</span>
             <el-button @click="click_del" v-show="okr.isdark" size="mini" style="float: right; margin: 3px 2px;padding:4px 6px" >刪除 </el-button>  
             <div style="float: right; margin: 2px">
-            <div class="line-it-button" data-lang="zh_Hant" data-type="share-a" data-ver="3" data-url="https://okrcompanytool.herokuapp.com/" data-color="grey" data-size="small" data-count="false" style="display: none;"></div>
+            <div class="line-it-button" data-lang="zh_Hant" data-type="share-a" data-ver="3" :data-url="line_url" data-color="grey" data-size="small" data-count="false" style="display: none;"></div>
             </div>
         </div>
         <div  class="clearfix">
@@ -59,7 +59,7 @@ Vue.component("v-okr", {
                     <el-option v-for="m in allmembers" :key="m" :label="m" :value="m">
                     </el-option>
                 </el-select>
-                <a v-show="!isMobile()" style="font-size:12px" :href="get_gmail_url()" target="_blank" rel="nofollow">傳送gmail</a>
+                <a class="ml-1" v-show="!isMobile()" style="font-size:12px" :href="get_gmail_url()" target="_blank" rel="nofollow">傳送gmail</a>
             </div>
             <div>
                 <!-- 進度 -->
@@ -97,7 +97,13 @@ Vue.component("v-okr", {
                     ]
                 };
             }
-        }
+        },
+    },
+    computed: {
+        line_url(){
+            var url = "https://okrcompanytool.herokuapp.com/" + this.okr.tab + "/" +this.okr.id
+            return url
+        },
     },
     data(){
         return {
@@ -123,6 +129,7 @@ Vue.component("v-okr", {
     },
     methods:{
         get_google_cld_text(){
+            //事件的內文文字
             var text = "O:" + this.okr.o + "(" + this.dt_2_str_dash(this.okr.enddt)  + ")%0A" + (_.map(this.okr.krs, (kr)=>{
                 return "- KR:" + kr.text  + "=>" + ( kr.members.join(",")) + "%0A"
             }).join(''))
@@ -131,6 +138,7 @@ Vue.component("v-okr", {
         },
 
         get_gmail_url(){
+            //gmail url
             var url = "https://mail.google.com/mail/u/0/?view=cm&fs=1&to={to}&su={su}&body={body}&bcc=&tf=1";
             url = url.replace("{su}", this.okr.o).replace("{body}", this.get_google_cld_text())
                 .replace("{to}", _.map(this.okr.members, (m)=> m).join(";"))

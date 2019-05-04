@@ -9,7 +9,7 @@ import hashlib
 from hanziconv import HanziConv
 from pymongo import MongoClient
 from bson.objectid import ObjectId #這東西再透過ObjectID去尋找的時候會用到
-import re
+from help import *
 
 
 app = Flask(__name__)
@@ -28,9 +28,9 @@ session = {
 def home():
     return render_template('home.html',okrid = "")
 
-@app.route("/<int:okrid>")
-def home_scroll_okr(okrid = ""):
-    return render_template('home.html',okrid = okrid)
+@app.route("/<int:tab>/<int:okrid>")
+def home_scroll_okr(tab=0, okrid = ""):
+    return render_template('home.html',tbname = tab, okrid = okrid)
 
 @app.route("/about")
 def about():
