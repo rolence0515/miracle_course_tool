@@ -59,6 +59,7 @@ Vue.component("v-okr", {
                     <el-option v-for="m in allmembers" :key="m" :label="m" :value="m">
                     </el-option>
                 </el-select>
+                <a style="font-size:12px" :href="get_gmail_url()" target="_blank" rel="nofollow">傳送gmail</a>
             </div>
             <div>
                 <!-- 進度 -->
@@ -122,10 +123,17 @@ Vue.component("v-okr", {
     },
     methods:{
         get_google_cld_text(){
-            var text = this.okr.o + this.dt_2_str_dash(this.okr.enddt) + (_.map(this.okr.krs, (kr)=>{
-                return kr.text
-            }).join("-"))
+            var text = "O:" + this.okr.o + "(" + this.dt_2_str_dash(this.okr.enddt)  + ")%0A" + (_.map(this.okr.krs, (kr)=>{
+                return "- KR:" + kr.text  + "=>" + ( kr.members.join(",")) + "%0A"
+            }).join(''))
             return text;
+        },
+
+        get_gmail_url(){
+            var url = "https://mail.google.com/mail/u/0/?view=cm&fs=1&to={to}&su={su}&body={body}&bcc=&tf=1";
+            url = url.replace("{su}", this.okr.o).replace("{body}", this.get_google_cld_text())
+                .replace("{to}", _.map(this.okr.members, (m)=> m).join(";"))
+            return url;
         },
         
         get_event_url(){

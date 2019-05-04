@@ -114,6 +114,22 @@
             all_members:['唐僧','悟空','八戒','沙僧'],
         },
         methods: {
+            okr_animate_bouncein(okrid){
+                setTimeout( ()=> {
+                    //停四百毫秒後做效果
+                    var element = document.querySelector('#okr_' + okrid)
+                    element.classList.remove('animated', 'bounceIn' ,'fast')
+                    element.classList.add('animated', 'bounceIn', 'fast')
+                    LineIt.loadButton();
+                }, 400);
+            },
+            okr_animate_bounceout(okrid, thenfunc){
+                var element = document.querySelector('#okr_' + okrid)
+                    element.classList.remove('animated', 'bounceOutLeft' ,'fast')
+                    element.classList.add('animated', 'bounceOutLeft', 'fast')
+                    LineIt.loadButton();
+                setTimeout(thenfunc, 600);
+            },
           
             add_okr(){
                 okrid = this.okrs.length;
@@ -129,14 +145,7 @@
                     ]
                 })
 
-                setTimeout( ()=> {
-                    //停四百毫秒後做效果
-                    var element = document.querySelector('#okr_' + okrid)
-                    element.classList.remove('animated', 'bounceIn' ,'fast')
-                    element.classList.add('animated', 'bounceIn', 'fast')
-                    LineIt.loadButton();
-                }, 400);
-                
+                this.okr_animate_bouncein(okrid);
                 
             },
 
@@ -146,12 +155,15 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    app.okrs = _.filter(app.okrs, (okr) => {
-                        return okr.id != okrid;
-                    })
-                    app.$message({
-                        type: 'success',
-                        message: '刪除成功!'
+
+                    this.okr_animate_bounceout(okrid, ()=> {
+                        app.okrs = _.filter(app.okrs, (okr) => {
+                            return okr.id != okrid;
+                        })
+                        app.$message({
+                            type: 'success',
+                            message: '刪除成功!'
+                        });
                     });
                 }).catch(() => {
                     app.$message({
