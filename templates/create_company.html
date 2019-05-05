@@ -1,0 +1,64 @@
+{% extends "layout_mini.html" %} {% block title %}奇蹟課程學員練習記錄工具{% endblock %} {% block head %}
+<style type="text/css">
+    .crop-text-2 {
+        /*兩行點點點*/
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+    }
+
+    h1,.prm-text {
+        color: #303133
+    }
+
+    .reg-text {
+        color: #606266
+    }
+
+</style>
+{% endblock %} 
+
+{% block content %}
+<md-empty-state md-icon="devices_other" md-label="建立你的第一個企業頻道" md-description="開始建立你的企業OKR，你已經縮短你與目標的距離了！">
+    <md-button class="md-primary md-raised">建立企業</md-button>
+</md-empty-state>
+{% endblock %} 
+
+
+
+{% block js %}
+
+<script src="/static/js/v-practice.js?20190402"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/audiojs/1.0.1/audio.min.js"></script>
+<script src="/static/audiojs/audio.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/vue-aplayer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollup/2.4.1/jquery.scrollUp.min.js"></script>
+<script>
+
+        var obj;
+        obj = new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#layout',
+            mixins: [layoutVue],
+            breadpath: [{ key: '首頁', path: '關於' }],
+            data: {
+               
+            },
+            methods: {
+               
+              
+            },
+            watch: {
+    
+            },
+            mounted:function () {
+                
+            }
+    
+    });
+    
+    </script> 
+    {% endblock %}

@@ -52,72 +52,86 @@
 </head>
 
 <body>
-      
-
+ 
     <div id="layout" v-cloak>
         <md-app md-waterfall md-mode="fixed-last">
             <md-app-toolbar class=" md-dense md-primary" style="z-index:9999;">
                 <div class="md-toolbar-row">
+
+                    <!-- 選單 -->
                     <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
                         <md-icon>menu</md-icon>
                     </md-button>
-                    <!-- <span class="md-title">OKRER</span> -->
-                    <img  alt="OKRER" width="64" src="/static/img/android-chrome-192x192.png"></img>
+
+                    <!-- logo -->
+                    <img alt="OKRER" width="64" src="/static/img/android-chrome-192x192.png"></img>
+
+                    <md-tabs class="md-primary">
+                        <md-tab id="tab-home" md-label="企業"></md-tab>
+                        <md-tab id="tab-pages" md-label="團隊"></md-tab>
+                        <md-tab id="tab-posts" md-label="個人"></md-tab>
+                    </md-tabs>
+
                     <span style="flex: 1 1 auto;"></span>
+
+                    <!-- 帳號單出窗 -->
                     <md-button class="md-icon-button" title="檢閱帳戶" v-popover:popover>
                         <md-icon>person</md-icon>
                     </md-button>
                     <el-popover ref="popover" placement="bottom" trigger="click">
                         <div class="separator" style="float: left;">
-
                         </div>
                         <div class="separator" style="float: left;margin-left:15px;min-width:240px;">
                             <p>帳號資訊</p>
-
                         </div>
                         <div style="text-align: right; margin: 0;clear:both;">
                             <el-button type="primary" title="登出" @click="">登出</el-button>
                         </div>
                     </el-popover>
+
+                    
+                    </md-app-toolbar>
                 </div>
 
+ 
+    
                 {% block toolbarrow %} {% endblock %}
-
+    
             </md-app-toolbar>
-
+    
             <md-app-drawer :md-active.sync="menuVisible">
                 <md-toolbar class="md-transparent" md-elevation="0">選單</md-toolbar>
                 <div class="full-control">
                     <div class="list">
                         <md-list :md-expand-single="expandSingle">
-                                <md-divider></md-divider>
-                                <md-list-item>
-                                    <md-icon>home</md-icon>
-                                    <span class="md-list-item-text">企業</span>
-                                </md-list-item>
-                                <md-list-item>
-                                    <md-icon>group</md-icon>
-                                    <span class="md-list-item-text">團隊</span>
-                                </md-list-item>
-                                <md-list-item>
-                                    <md-icon>account_box</md-icon>
-                                    <span class="md-list-item-text">私人</span>
-                                </md-list-item>
-                                <md-divider></md-divider>
-                                <md-list-item>
-                                    <md-icon>settings_applications</md-icon>
-                                    <span class="md-list-item-text">成員管理</span>
-                                </md-list-item>
-                                <md-list-item>
-                                    <md-icon>settings</md-icon>
-                                    <span class="md-list-item-text">團隊管理</span>
-                                </md-list-item>
+                            <md-divider></md-divider>
+                            <md-list-item>
+                                <md-icon>home</md-icon>
+                                <span class="md-list-item-text">企業</span>
+                            </md-list-item>
+                            <md-list-item>
+                                <md-icon>group</md-icon>
+                                <span class="md-list-item-text">團隊</span>
+                            </md-list-item>
+                            <md-list-item>
+                                <md-icon>account_box</md-icon>
+                                <span class="md-list-item-text">私人</span>
+                            </md-list-item>
+                            <md-divider></md-divider>
+                            <md-list-item>
+                                <md-icon>settings_applications</md-icon>
+                                <span class="md-list-item-text">成員管理</span>
+                            </md-list-item>
+                            <md-list-item>
+                                <md-icon>settings</md-icon>
+                                <span class="md-list-item-text">團隊管理</span>
+                            </md-list-item>
                         </md-list>
                     </div>
                 </div>
-
+    
             </md-app-drawer>
-
+    
             <md-app-content>
                 <el-breadcrumb separator-class="el-icon-arrow-right">
                     <el-breadcrumb-item v-for="bp in breadpath" v-bind:key="bp.key">
@@ -126,28 +140,10 @@
                     </el-breadcrumb-item>
                 </el-breadcrumb>
                 {% block content %} {% endblock %}
-
+    
             </md-app-content>
-
-
         </md-app>
-
-        
-    <md-dialog :md-active.sync="show_qr" style="width: 90%;">
-        <md-dialog-title class="prm-text">
-            QR Code
-        </md-dialog-title>
-        <md-dialog-content class="text-center">
-          
-        </md-dialog-content>
-        <md-dialog-actions>
-            <div >
-                <md-button class="md-primary" @click="show_qr = false">關閉</md-button>
-            </div>
-           
-        </md-dialog-actions>
-    </md-dialog>
-
+    
         {% block bodybottom %} {% endblock %}
     </div>
 

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %} - OKR企業目標管理工具</title>
+    <meta content="width=device-width,initial-scale=1,minimal-ui" name="viewport">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material/dist/vue-material.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material/dist/theme/default.css">
+    <!-- 引入element样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- Add this to <head> -->
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/page.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/main.scss" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"> 
+    <style lang="scss" scoped>
+        /* 防止載入初始化 */
+        [v-cloak] {
+            display: none;
+        }
+    
+        .md-app {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+    
+        .md-drawer {
+            /*width: 230px;*/
+            max-width: calc(100vw - 125px);
+        }
+    
+        .md-progress-spinner circle {
+            stroke: #606266 !important;
+        }
+    
+        .md-list.md-theme-default .md-list-item-container:not(.md-list-item-default):not([disabled]):hover {
+            background-color: #f5f7fa !important;
+        }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <div id="layout" v-cloak>
+        <md-app md-waterfall md-mode="overlap">
+            <md-app-toolbar class="md-primary md-large">
+                <div class="md-toolbar-row">
+                    <img alt="OKRER" width="64" src="/static/img/android-chrome-192x192.png"></img>
+
+                    <span class="md-title"></span>
+                </div>
+            </md-app-toolbar>
+            
+            <md-app-content>
+                 {% block content %} {% endblock %}
+            </md-app-content>
+           
+        </md-app>
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+
+
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
+    <!-- <script src="/static/js/elementui/zh-TW.js"></script> -->
+
+    <!-- vue-material要改beta8才能支援expanded.sync-->
+    <script src="/static/js/vue-material.min.js"></script>
+
+    <script>
+
+        Vue.use(VueMaterial.default);
+
+        var layoutVue = {
+            data: {
+                menuVisible: false,
+                expandAudi: true,
+                expandMarket: true,
+                expandSingle: true,
+                expandSetting: true,
+                expandStatistic: true,
+                breadpath: [],
+                show_qr: false
+            },
+            methods: {
+                click_href(u) {
+                    location.href = u
+                },
+                on_click_show_qr() {
+                    this.show_qr = true
+                },
+            }
+        }
+
+        //fixed menu white bottom not show
+        var sheet = $("#main_style").get(0).sheet;
+        var styles = 'main {min-height: ' + ($(window).height() - 110) + 'px;}';
+        sheet.insertRule(styles, 0);
+    </script> {% block js %} {% endblock %}
+
+</body>
+
+</html>

@@ -32,6 +32,14 @@ def home():
 def home_scroll_okr(tab=0, okrid = ""):
     return render_template('home.html',tbname = tab, okrid = okrid)
 
+@app.route("/create_company")
+def create_company():
+    return render_template('create_company.html')
+
+@app.route("/create_team")
+def create_team():
+    return render_template('create_team.html')
+
 @app.route("/about")
 def about():
     return render_template('about.html')
