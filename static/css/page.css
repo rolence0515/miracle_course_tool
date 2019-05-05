@@ -41,7 +41,7 @@ h1,.prm-text {
 	transition: all .5s ease;
 }
 .el-tabs__item.is-active{
-	font-size: 2em;
+	font-size: 1.2em;
    
 }
 /* 卡片高度修正 */
