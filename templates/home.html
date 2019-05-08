@@ -22,10 +22,6 @@
                 </el-option>
                 <el-option label="顯示已完成" value="顯示已完成">
                 </el-option>
-                <el-option label="顯示私人的" value="顯示私人的">
-                </el-option>
-                <el-option label="顯示我參與的" value="顯示我參與的">
-                </el-option>
             </el-select>
         </el-col>
     </el-row>
@@ -34,7 +30,15 @@
         
         <el-tabs v-model="act_tab_name" @tab-click="on_tab_click" :tab-position="isMobile() ? 'top' : 'left'">
             <el-tab-pane id="0" class="reg-text" label="年度目標">
-                <v-okr @okr_del="on_okr_del" v-bind:key="okr.id" v-for="okr in okrs" :okr="okr" :allmembers="all_members"></v-okr>
+                <div v-if="okrs.length > 0">
+                    <v-okr @okr_del="on_okr_del" v-bind:key="okr.id" v-for="okr in okrs" :okr="okr" :allmembers="all_members"></v-okr>
+                </div>
+                <div v-else>
+                    <md-empty-state md-rounded md-icon="access_time" md-label="Nothing Done Yet"
+                        :md-description="get_random_goldwords()">
+                    </md-empty-state>
+                </div>
+                
             </el-tab-pane>
             <el-tab-pane id="1" class="reg-text" label="Q1目標">
                 <v-okr v-bind:key="okr.id" v-for="okr in okrs" :okr="okr" :allmembers="all_members"></v-okr>
@@ -62,6 +66,7 @@
 {% endblock %} 
 
 {% block js %}
+<script src="/static/js/mixin_gold_words.js"></script>
 <script src="/static/js/minxin_is_mobile.js"></script>
 <script src="/static/js/mixin_localstroage.js"></script>
 <script src="/static/js/mixin_date.js"></script>
@@ -80,10 +85,34 @@
     var app = new Vue({
         delimiters: ['[[', ']]'],
         el: '#layout',
-        mixins: [layoutVue,mixindetictingmobile,mixinLocalStorge,mixinanimate],//layout 資料
+        mixins: [layoutVue,mixindetictingmobile,mixinLocalStorge,mixinanimate, mixingoldwords],//layout 資料
         breadpath: [{ key: '首頁', path: '' }],//面包序
         data: {
             comp:"蜀漢",
+            all_my_okrs: [{
+                id: 0,
+                isdark: true,
+                tab: 0,
+                members: ['諸葛亮', '馬謖'],
+                complete: 10,
+                enddt: Date.now(),
+                o: "蜀國北伐大業",
+                krs: [
+                    { id: 0, text: '跟據軍師佈陣圖，守住街亭, 蜀國大軍糧草的重要據點', ishelp: false, rate: 3, members: ["馬謖"] },
+                ]
+            },
+            {
+                id: 1,
+                isdark: false,
+                tab: 1,
+                members: [],
+                complete: 10,
+                enddt: Date.now(),
+                o: "目標1",
+                krs: [
+                    { id: 0, text: null, ishelp: false, rate: 3, members: [] },
+                ]
+            }],
             okrs:[{
                     id:0,
                     isdark:true,
@@ -177,7 +206,19 @@
                 });
             },
 
-            on_ftr_change(){
+            on_ftr_change(value){
+                switch(value){
+                    case '顯示已完成':
+                        this.okrs = _.filter(this.all_my_okrs, (okr) => okr.complete == 100);
+                        break;
+                    case '顯示未完成':
+                        this.okrs = _.filter(this.all_my_okrs, (okr) => okr.complete < 100);
+                        break;
+                    case '顯示全部':
+                        this.okrs = this.all_my_okrs;
+                        break;
+                }
+                
               
             },
             on_tab_click(){
