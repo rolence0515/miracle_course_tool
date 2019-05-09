@@ -33,7 +33,7 @@ Vue.component("v-okr", {
             <span >[[ !okr.isdark ? "你參與的" : ""]] OKR</span>
             <el-button @click="click_del" v-show="okr.isdark" size="mini" style="float: right; margin: 3px 2px;padding:4px 6px" >刪除 </el-button>  
             <div style="float: right; margin: 2px">
-            <div class="line-it-button" data-lang="zh_Hant" data-type="share-a" data-ver="3" :data-url="line_url" data-color="grey" data-size="small" data-count="false" style="display: none;"></div>
+            <div class="line-it-button" data-lang="zh_Hant" data-type="share-a" data-ver="3" :data-url="share_url" data-color="grey" data-size="small" data-count="false" style="display: none;"></div>
             </div>
         </div>
         <div  class="clearfix">
@@ -87,6 +87,7 @@ Vue.component("v-okr", {
             default: function () {
                 return {
                     id:-1,
+                    area:'priv',
                     isdark:false,
                     members: [],
                     complete: 10,
@@ -100,8 +101,9 @@ Vue.component("v-okr", {
         },
     },
     computed: {
-        line_url(){
-            var url = "https://okrcompanytool.herokuapp.com/" + this.okr.tab + "/" +this.okr.id
+        share_url(){
+            //連結到此okr
+            var url = "https://okrcompanytool.herokuapp.com/" + this.area + "/" + this.okr.tab + "/" +this.okr.id
             return url
         },
     },
