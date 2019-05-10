@@ -94,10 +94,14 @@
             </md-app-toolbar>
     
 <<<<<<< HEAD
+<<<<<<< HEAD
             <md-app-drawer :md-persistent="isMobile()? '' : 'mini'" :md-active.sync="menuVisible">
 =======
             <md-app-drawer :md-active.sync="menuVisible">
 >>>>>>> parent of 74b17b5... empty
+=======
+            <md-app-drawer md-persistent="mini" :md-active.sync="menuVisible">
+>>>>>>> parent of 72b492e... empty
                 <md-toolbar class="md-transparent" md-elevation="0">選單</md-toolbar>
                 <div class="full-control">
                     <div class="list">
@@ -159,7 +163,6 @@
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
-    <script src="/static/js/minxin_is_mobile.js"></script>
     <!-- <script src="/static/js/elementui/zh-TW.js"></script> -->
 
     <!-- vue-material要改beta8才能支援expanded.sync-->
@@ -170,7 +173,6 @@
         Vue.use(VueMaterial.default);
 
         var layoutVue = {
-            mixins: [mixindetictingmobile],
             data: {
                 menuVisible: false,
                 expandAudi: true,
