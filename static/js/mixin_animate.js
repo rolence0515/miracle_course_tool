@@ -26,11 +26,6 @@ var mixinanimate = {
                 element.classList.add('animated', 'bounceIn', 'fast')
                 LineIt.loadButton();
                 clearTimeout(that.animate_t)
-
-                setTimeout(() =>{
-                    element.classList.remove('animated', 'bounceIn', 'fast')    
-                }, 400)
-
             }, 400);
         },
         

@@ -93,23 +93,27 @@
     
             </md-app-toolbar>
     
+<<<<<<< HEAD
             <md-app-drawer :md-persistent="isMobile()? '' : 'mini'" :md-active.sync="menuVisible">
+=======
+            <md-app-drawer :md-active.sync="menuVisible">
+>>>>>>> parent of 74b17b5... empty
                 <md-toolbar class="md-transparent" md-elevation="0">選單</md-toolbar>
                 <div class="full-control">
                     <div class="list">
                         <md-list :md-expand-single="expandSingle">
                             <md-divider></md-divider>
-                            <md-list-item @click="click_href('/corp')">
-                                <md-icon >home</md-icon>
-                                <span  class="md-list-item-text">企業</span>
+                            <md-list-item>
+                                <md-icon>home</md-icon>
+                                <span class="md-list-item-text">企業</span>
                             </md-list-item>
-                            <md-list-item @click="click_href('/team')">
+                            <md-list-item>
                                 <md-icon>group</md-icon>
-                                <span  class="md-list-item-text">團隊</span>
+                                <span class="md-list-item-text">團隊</span>
                             </md-list-item>
-                            <md-list-item @click="click_href('priv')">
+                            <md-list-item>
                                 <md-icon>account_box</md-icon>
-                                <span  class="md-list-item-text">個人</span>
+                                <span class="md-list-item-text">個人</span>
                             </md-list-item>
                             <md-divider></md-divider>
                             <md-list-item>

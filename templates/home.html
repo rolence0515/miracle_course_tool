@@ -4,7 +4,7 @@
 </style>
 {% endblock %}
  {% block content %}
-<h3 class="mb-3">[[ get_page_title()]]-OKR管理工具</h3> 
+<h3 class="mb-3">[[comp]]企業OKR管理工具</h3>
 
 <el-row class="mb-3">
     <el-col :span="24">
@@ -88,11 +88,9 @@
         mixins: [layoutVue,mixindetictingmobile,mixinLocalStorge,mixinanimate, mixingoldwords],//layout 資料
         breadpath: [{ key: '首頁', path: '' }],//面包序
         data: {
-            area:'{{area}}',
-            corp:"蜀漢企業",
+            comp:"蜀漢",
             all_my_okrs: [{
                 id: 0,
-                area: 'corp',
                 isdark: true,
                 tab: 0,
                 members: ['諸葛亮', '馬謖'],
@@ -105,7 +103,6 @@
             },
             {
                 id: 1,
-                area: 'team',
                 isdark: false,
                 tab: 1,
                 members: [],
@@ -118,7 +115,6 @@
             }],
             okrs:[{
                     id:0,
-                    area: 'priv',
                     isdark:true,
                     tab:0,
                     members: ['諸葛亮','馬謖'],
@@ -131,7 +127,6 @@
                 },
                 {
                     id:1,
-                    area: 'priv',
                     isdark:false,
                     tab:1,
                     members: [],
@@ -149,9 +144,6 @@
             all_members:['劉備','關公','張飛','諸葛亮','馬謖'],
         },
         methods: {
-            get_page_title(){
-                return this.area == "corp"? this.corp: this.area == 'team' ? '團隊' : '個人';
-            },
             okr_animate_bouncein(okrid){
                 this.bouncein('#okr_' + okrid);
 
@@ -177,7 +169,6 @@
                 okrid = this.okrs.length;
                 this.okrs.unshift({
                     id:okrid,
-                    area:'priv',
                     isdark:true,
                     members: [],
                     complete: 2,
@@ -240,7 +231,7 @@
         mounted:function () {
             this.init_ls("home", ['ftr'])
             this.$nextTick(function () {
-                if('{{okrid}}' != "" && '{{okrid}}' != "-1"){
+                if('{{okrid}}' != ""){
                     app.scroll_to_card('{{okrid}}')
                 }
             })
